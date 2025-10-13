@@ -22,12 +22,12 @@ export const Chart = () => {
     // Create chart
     const chart = createChart(chartContainerRef.current, {
       layout: {
-        background: { type: ColorType.Solid, color: '#1F2937' },
-        textColor: '#9CA3AF',
+        background: { type: ColorType.Solid, color: '#0F172A' },
+        textColor: '#94A3B8',
       },
       grid: {
-        vertLines: { color: '#374151' },
-        horzLines: { color: '#374151' },
+        vertLines: { color: '#1E293B', style: 1 },
+        horzLines: { color: '#1E293B', style: 1 },
       },
       width: chartContainerRef.current.clientWidth,
       height: 400,
@@ -121,7 +121,7 @@ export const Chart = () => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl p-5 shadow-2xl border border-gray-700">
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-5 shadow-2xl border border-slate-700">
       <div className="mb-4">
         <h3 className="text-xl font-bold text-white mb-1">
           {getSymbolLabel()}/USDT - Gráfico de 1 Minuto

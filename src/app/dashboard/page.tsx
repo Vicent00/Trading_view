@@ -12,24 +12,24 @@ export default function Dashboard() {
   useBinanceWebSocket();
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      {/* Navbar */}
-      <nav className="sticky top-0 z-50 bg-gray-800 border-b border-gray-700 backdrop-blur-sm bg-opacity-95">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/"
-              className="text-2xl font-bold text-white hover:text-blue-400 transition-colors"
-            >
-              🚀 Crypto Tracker
-            </Link>
-            <ConnectionStatus />
-          </div>
-        </div>
-      </nav>
-
-      {/* Dashboard Content */}
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900">
       <div className="max-w-7xl mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Link 
+              href="/"
+              className="text-slate-400 hover:text-cyan-400 transition-colors duration-200"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+            </Link>
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">Crypto Dashboard</h1>
+          </div>
+          <ConnectionStatus />
+        </div>
+
         {/* Symbol Selector */}
         <SymbolSelector />
 

@@ -42,7 +42,7 @@ export const PriceTicker = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl border border-gray-700">
+    <div className="bg-gradient-to-br from-slate-900/90 to-slate-950/90 backdrop-blur-sm rounded-xl p-8 shadow-xl border border-slate-700">
       <div className="flex items-center justify-between mb-2">
         <div className="text-gray-400 text-lg font-medium">{getSymbolLabel()}/USDT</div>
         {priceChange && (

@@ -15,18 +15,18 @@ export const TradesList = () => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl p-5 shadow-2xl border border-gray-700 h-full">
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-5 shadow-2xl border border-slate-700 h-full">
       <h3 className="text-xl font-bold text-white mb-4">Trades Recientes</h3>
       <div className="space-y-1 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
         {trades.length === 0 ? (
-          <div className="text-gray-500 text-sm text-center py-8 bg-gray-900/50 rounded-lg">
+          <div className="text-slate-500 text-sm text-center py-8 bg-slate-900/50 rounded-lg">
             No hay trades disponibles aún...
           </div>
         ) : (
           trades.map((trade) => (
             <div
               key={trade.id}
-              className="flex items-center justify-between text-sm py-3 px-3 rounded-lg hover:bg-gray-700/50 transition-colors border-b border-gray-700/50 last:border-0"
+              className="flex items-center justify-between text-sm py-3 px-3 rounded-lg hover:bg-slate-800/50 transition-colors border-b border-slate-700/50 last:border-0"
             >
               <div className="flex items-center gap-3">
                 <span
