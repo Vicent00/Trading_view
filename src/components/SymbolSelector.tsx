@@ -8,6 +8,18 @@ const SYMBOLS: { symbol: CryptoSymbol; label: string; color: string }[] = [
   { symbol: 'btcusdt', label: 'BTC', color: 'bg-orange-500 hover:bg-orange-600' },
   { symbol: 'ethusdt', label: 'ETH', color: 'bg-blue-500 hover:bg-blue-600' },
   { symbol: 'solusdt', label: 'SOL', color: 'bg-purple-500 hover:bg-purple-600' },
+  { symbol: 'bnbusdt', label: 'BNB', color: 'bg-yellow-500 hover:bg-yellow-600' },
+  { symbol: 'xrpusdt', label: 'XRP', color: 'bg-slate-500 hover:bg-slate-600' },
+  { symbol: 'adausdt', label: 'ADA', color: 'bg-cyan-500 hover:bg-cyan-600' },
+  { symbol: 'dogeusdt', label: 'DOGE', color: 'bg-amber-500 hover:bg-amber-600' },
+  { symbol: 'maticusdt', label: 'MATIC', color: 'bg-indigo-500 hover:bg-indigo-600' },
+  { symbol: 'dotusdt', label: 'DOT', color: 'bg-pink-500 hover:bg-pink-600' },
+  { symbol: 'avaxusdt', label: 'AVAX', color: 'bg-red-500 hover:bg-red-600' },
+  { symbol: 'linkusdt', label: 'LINK', color: 'bg-sky-500 hover:bg-sky-600' },
+  { symbol: 'uniusdt', label: 'UNI', color: 'bg-fuchsia-500 hover:bg-fuchsia-600' },
+  { symbol: 'ltcusdt', label: 'LTC', color: 'bg-gray-500 hover:bg-gray-600' },
+  { symbol: 'trxusdt', label: 'TRX', color: 'bg-rose-500 hover:bg-rose-600' },
+  { symbol: 'atomusdt', label: 'ATOM', color: 'bg-violet-500 hover:bg-violet-600' },
 ];
 
 export const SymbolSelector = () => {
@@ -30,13 +42,13 @@ export const SymbolSelector = () => {
   return (
     <div className="bg-gray-800 rounded-xl p-4 shadow-xl border border-gray-700">
       <h3 className="text-sm font-semibold text-gray-400 mb-3">Seleccionar Criptomoneda</h3>
-      <div className="flex gap-3">
+      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-3">
         {SYMBOLS.map((s) => (
           <button
             key={s.symbol}
             onClick={() => handleSymbolChange(s.symbol)}
             disabled={isChanging}
-            className={`flex-1 px-6 py-3 rounded-lg font-bold text-white transition-all duration-200 transform ${
+            className={`px-4 py-3 rounded-lg font-bold text-white transition-all duration-200 transform ${
               symbol === s.symbol
                 ? `${s.color} ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-105 shadow-lg`
                 : isChanging

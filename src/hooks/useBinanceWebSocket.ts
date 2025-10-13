@@ -4,6 +4,7 @@ import type {
   BinanceStreamMessage,
   BinanceTradeMessage,
   BinanceKlineMessage,
+  BinanceKlineRaw,
   Trade,
   Candle,
 } from '@/types/market';
@@ -47,7 +48,7 @@ export const useBinanceWebSocket = () => {
           return;
         }
         const data = await res.json();
-        const candles: Candle[] = (data as any[]).map((d) => ({
+        const candles: Candle[] = (data as BinanceKlineRaw[]).map((d) => ({
           time: Math.floor(d[0] / 1000),
           open: parseFloat(d[1]),
           high: parseFloat(d[2]),

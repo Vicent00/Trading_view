@@ -81,7 +81,22 @@ export interface Candle {
 }
 
 // Supported cryptocurrency symbols
-export type CryptoSymbol = 'btcusdt' | 'ethusdt' | 'solusdt';
+export type CryptoSymbol =
+  | 'btcusdt'   // Bitcoin
+  | 'ethusdt'   // Ethereum
+  | 'solusdt'   // Solana
+  | 'bnbusdt'   // Binance Coin
+  | 'xrpusdt'   // Ripple
+  | 'adausdt'   // Cardano
+  | 'dogeusdt'  // Dogecoin
+  | 'maticusdt' // Polygon
+  | 'dotusdt'   // Polkadot
+  | 'avaxusdt'  // Avalanche
+  | 'linkusdt'  // Chainlink
+  | 'uniusdt'   // Uniswap
+  | 'ltcusdt'   // Litecoin
+  | 'trxusdt'   // Tron
+  | 'atomusdt'; // Cosmos
 
 // WebSocket connection states
 export type ConnectionState = 'connecting' | 'connected' | 'disconnected' | 'error';
