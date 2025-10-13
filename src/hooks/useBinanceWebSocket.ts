@@ -4,7 +4,6 @@ import type {
   BinanceStreamMessage,
   BinanceTradeMessage,
   BinanceKlineMessage,
-  BinanceKlineRaw,
   Trade,
   Candle,
 } from '@/types/market';
@@ -15,6 +14,12 @@ const MAX_RECONNECT_DELAY = 30000;
 
 export const useBinanceWebSocket = () => {
   const symbol = useMarketStore((state) => state.symbol);
+  const setCurrentPrice = useMarketStore((state) => state.setCurrentPrice);
+  const addTrade = useMarketStore((state) => state.addTrade);
+  const updateCandle = useMarketStore((state) => state.updateCandle);
+  const setCandles = useMarketStore((state) => state.setCandles);
+  const setConnectionState = useMarketStore((state) => state.setConnectionState);
+  const setIsLoading = useMarketStore((state) => state.setIsLoading);
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -24,8 +29,6 @@ export const useBinanceWebSocket = () => {
   const isCleaningUpRef = useRef(false);
 
   useEffect(() => {
-    // Get store actions directly inside useEffect to avoid dependency issues
-    const { setCurrentPrice, addTrade, updateCandle, setCandles, setConnectionState, setIsLoading } = useMarketStore.getState();
     // Update refs FIRST before any async operations
     shouldConnectRef.current = true;
     currentSymbolRef.current = symbol;
@@ -44,7 +47,7 @@ export const useBinanceWebSocket = () => {
           return;
         }
         const data = await res.json();
-        const candles: Candle[] = (data as BinanceKlineRaw[]).map((d) => ({
+        const candles: Candle[] = (data as any[]).map((d) => ({
           time: Math.floor(d[0] / 1000),
           open: parseFloat(d[1]),
           high: parseFloat(d[2]),
@@ -55,7 +58,7 @@ export const useBinanceWebSocket = () => {
 
         // Only update if we haven't switched symbols during the fetch
         if (currentSymbolRef.current === symbol) {
-          setCandles(candles, symbol);
+            setCandles(candles, symbol);
           if (candles.length) setCurrentPrice(candles[candles.length - 1].close, symbol);
           setIsLoading(false);
         }
@@ -107,8 +110,7 @@ export const useBinanceWebSocket = () => {
               const tradeData = message.data as BinanceTradeMessage;
               const price = parseFloat(tradeData.p);
 
-              // Use currentSymbolRef to ensure we're using the latest symbol
-              setCurrentPrice(price, currentSymbolRef.current);
+              setCurrentPrice(price, symbol);
 
               const trade: Trade = {
                 id: tradeData.t,
@@ -118,7 +120,7 @@ export const useBinanceWebSocket = () => {
                 isBuyerMaker: tradeData.m,
               };
 
-              addTrade(trade, currentSymbolRef.current);
+              addTrade(trade, symbol);
             } else if (message.stream.includes('@kline')) {
               const klineData = message.data as BinanceKlineMessage;
               const k = klineData.k;
@@ -132,9 +134,8 @@ export const useBinanceWebSocket = () => {
                 volume: parseFloat(k.v),
               };
 
-              // Use currentSymbolRef to ensure we're using the latest symbol
-              updateCandle(candle, currentSymbolRef.current);
-              setCurrentPrice(candle.close, currentSymbolRef.current);
+              updateCandle(candle, symbol);
+              setCurrentPrice(candle.close, symbol);
             }
           } catch (error) {
             console.error('Error parsing WebSocket message:', error);
@@ -205,6 +206,6 @@ export const useBinanceWebSocket = () => {
       // Reset reconnect delay for next connection
       reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
     };
-  }, [symbol]); // Only re-run when symbol changes
+  }, [symbol, setCurrentPrice, addTrade, updateCandle, setConnectionState, setCandles, setIsLoading]);
 };
 
