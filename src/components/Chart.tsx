@@ -19,6 +19,14 @@ export const Chart = () => {
 
     console.log('[Chart] Creating chart instance');
 
+    // Determine chart height based on screen size
+    const getChartHeight = () => {
+      const width = window.innerWidth;
+      if (width < 768) return 300; // Mobile
+      if (width < 1024) return 350; // Tablet
+      return 400; // Desktop
+    };
+
     // Create chart
     const chart = createChart(chartContainerRef.current, {
       layout: {
@@ -30,7 +38,7 @@ export const Chart = () => {
         horzLines: { color: '#1E293B', style: 1 },
       },
       width: chartContainerRef.current.clientWidth,
-      height: 400,
+      height: getChartHeight(),
       timeScale: {
         timeVisible: true,
         secondsVisible: false,
@@ -51,8 +59,12 @@ export const Chart = () => {
     // Handle resize
     const handleResize = () => {
       if (chartContainerRef.current && chartRef.current) {
+        const width = window.innerWidth;
+        const height = width < 768 ? 300 : width < 1024 ? 350 : 400;
+        
         chartRef.current.applyOptions({
           width: chartContainerRef.current.clientWidth,
+          height,
         });
       }
     };
@@ -121,20 +133,20 @@ export const Chart = () => {
   };
 
   return (
-    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-5 shadow-2xl border border-slate-700">
-      <div className="mb-4">
-        <h3 className="text-xl font-bold text-white mb-1">
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-3 md:p-5 shadow-2xl border border-slate-700">
+      <div className="mb-3 md:mb-4">
+        <h3 className="text-lg md:text-xl font-bold text-white mb-1">
           {getSymbolLabel()}/USDT - Gráfico de 1 Minuto
         </h3>
         <p className="text-xs text-gray-400">Zona horaria: UTC (Hora Universal)</p>
       </div>
-      <div className="relative rounded-lg overflow-hidden" style={{ minHeight: '400px' }}>
+      <div className="relative rounded-lg overflow-hidden min-h-[300px] md:min-h-[350px] lg:min-h-[400px]">
         <div ref={chartContainerRef} />
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-900/90 backdrop-blur-sm">
             <div className="flex flex-col items-center gap-3">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-              <div className="text-gray-300 font-medium">Cargando datos del gráfico...</div>
+              <div className="text-gray-300 font-medium text-sm md:text-base">Cargando datos del gráfico...</div>
             </div>
           </div>
         )}

@@ -53,9 +53,9 @@ export const ConnectionStatus = () => {
   const config = getStatusConfig();
 
   return (
-    <div className={`flex items-center gap-3 px-4 py-2 rounded-lg border transition-all duration-300 ${config.bgColor}`}>
-      <div className={`w-2.5 h-2.5 rounded-full ${config.dotColor} transition-all duration-300`} />
-      <span className={`text-sm font-semibold ${config.textColor} transition-colors duration-300`}>
+    <div className={`flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 rounded-lg border transition-all duration-300 ${config.bgColor}`}>
+      <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${config.dotColor} transition-all duration-300`} />
+      <span className={`text-xs sm:text-sm font-semibold ${config.textColor} transition-colors duration-300`}>
         {config.text}
       </span>
     </div>
