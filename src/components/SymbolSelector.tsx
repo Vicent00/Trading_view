@@ -40,15 +40,15 @@ export const SymbolSelector = () => {
   };
 
   return (
-    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-slate-700">
-      <h3 className="text-sm font-semibold text-gray-400 mb-3">Select Cryptocurrency</h3>
-      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-3">
+    <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border border-slate-700">
+      <h3 className="text-xs sm:text-sm font-semibold text-gray-400 mb-2 md:mb-3">Select Cryptocurrency</h3>
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 gap-2 md:gap-3">
         {SYMBOLS.map((s) => (
           <button
             key={s.symbol}
             onClick={() => handleSymbolChange(s.symbol)}
             disabled={isChanging}
-            className={`px-4 py-3 rounded-lg font-bold text-white transition-all duration-200 transform ${
+            className={`px-2 sm:px-3 md:px-4 py-2 md:py-3 rounded-lg font-bold text-white text-xs sm:text-sm md:text-base transition-all duration-200 transform ${
               symbol === s.symbol
                 ? `${s.color} ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-105 shadow-lg`
                 : isChanging

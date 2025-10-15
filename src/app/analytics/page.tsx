@@ -12,10 +12,10 @@ export default function AnalyticsPage() {
   return (
     <AppLayout>
       <div className="min-h-full bg-gradient-to-br from-black via-gray-900 to-slate-900">
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">
+        <div className="max-w-7xl mx-auto p-3 sm:p-4 md:p-6 space-y-4 md:space-y-6">
+          {/* Header - Stack on mobile, horizontal on desktop */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+            <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">
               Analytics Dashboard
             </h1>
             <ConnectionStatus />

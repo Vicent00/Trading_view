@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { WatchlistGroup } from '@/components/watchlist/WatchlistGroup';
 import { WatchlistGroupData } from '@/components/watchlist/types';
 import { AddWatchlistModal } from '@/components/watchlist/AddWatchlistModal';
@@ -8,8 +10,16 @@ import { AddTokenModal } from '@/components/watchlist/AddTokenModal';
 import { useBinanceTicker } from '@/hooks/useBinanceTicker';
 import { useTickerStore } from '@/store/tickerStore';
 import { useWatchlistStore } from '@/store/watchlistStore';
+import { useUIStore } from '@/store/uiStore';
+
+const navLinks = [
+  { href: '/analytics', label: 'Analytics' },
+  { href: '/market-overview', label: 'Market Overview' },
+  { href: '/compare', label: 'Compare' },
+];
 
 export function Sidebar() {
+  const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showAddWatchlistModal, setShowAddWatchlistModal] = useState(false);
   const [addTokenModalState, setAddTokenModalState] = useState<{
@@ -21,6 +31,9 @@ export function Sidebar() {
     watchlistId: '',
     currentSymbols: [],
   });
+
+  const isMobileSidebarOpen = useUIStore((state) => state.isMobileSidebarOpen);
+  const closeMobileSidebar = useUIStore((state) => state.closeMobileSidebar);
 
   // Fetch real-time ticker data
   useBinanceTicker();
@@ -86,18 +99,52 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Sidebar */}
+      {/* Sidebar - Mobile: Fixed overlay drawer | Desktop: Static sidebar */}
       <aside
-        className={`bg-[#141414] border-r border-[#1e1e1e] transition-all duration-300 ${
-          isCollapsed ? 'w-0 lg:w-16' : 'w-0 lg:w-[280px]'
-        } overflow-hidden`}
+        className={`
+          bg-[#141414] border-r border-[#1e1e1e] transition-all duration-300
+          ${
+            // Mobile: drawer overlay below navbar
+            'fixed lg:static top-[60px] left-0 h-[calc(100vh-60px)] z-40'
+          }
+          ${
+            // Mobile: slide in/out based on state
+            isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }
+          ${
+            // Width handling - mobile full width, desktop respects collapse state
+            isCollapsed ? 'w-full sm:w-[280px] lg:w-16' : 'w-full sm:w-[280px]'
+          }
+        `}
       >
         <div className="flex flex-col h-full">
-          {/* Toggle Button */}
-          <div className="p-4 border-b border-[#1e1e1e]">
+          {/* Header with Close/Toggle buttons */}
+          <div className="p-4 border-b border-[#1e1e1e] flex items-center justify-between">
+            {/* Close button (mobile only) */}
+            <button
+              onClick={closeMobileSidebar}
+              className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-[#1a1a1a] transition-colors"
+              aria-label="Close sidebar"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            {/* Toggle collapse button (desktop only) */}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="w-full flex justify-end text-gray-400 hover:text-gray-200 transition-colors"
+              className="hidden lg:flex ml-auto text-gray-400 hover:text-gray-200 transition-colors"
             >
               <svg
                 className={`w-5 h-5 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
@@ -113,6 +160,32 @@ export function Sidebar() {
                 />
               </svg>
             </button>
+          </div>
+
+          {/* Mobile Navigation Links (only visible on mobile) */}
+          <div className="lg:hidden border-b border-[#1e1e1e] p-4">
+            <h3 className="text-[#e0e0e0] text-xs font-bold uppercase tracking-wider mb-3">
+              Navegación
+            </h3>
+            <div className="space-y-1">
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={closeMobileSidebar}
+                    className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? 'bg-gray-800 text-white'
+                        : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
           {/* Watchlists Content */}
@@ -147,7 +220,7 @@ export function Sidebar() {
               </div>
 
               {/* Watchlist Groups - Scrollable */}
-              <div className="p-3 max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+              <div className="p-3 max-h-[calc(100vh-340px)] lg:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
                 {isLoading && Object.keys(tickers).length === 0 ? (
                   <div className="flex items-center justify-center py-8 text-gray-500">
                     <svg

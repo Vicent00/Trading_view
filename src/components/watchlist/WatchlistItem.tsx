@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useMarketStore } from '@/store/marketStore';
 import { useWatchlistStore } from '@/store/watchlistStore';
 import { mapSymbolToTradingPair, mapTradingPairToSymbol } from '@/utils/symbolMapper';
+import { useUIStore } from '@/store/uiStore';
 import { CryptoItem } from './types';
 
 interface WatchlistItemProps extends CryptoItem {
@@ -23,6 +24,7 @@ export function WatchlistItem({
   const router = useRouter();
   const currentSymbol = useMarketStore((state) => state.symbol);
   const setSymbol = useMarketStore((state) => state.setSymbol);
+  const closeMobileSidebar = useUIStore((state) => state.closeMobileSidebar);
 
   const watchlists = useWatchlistStore((state) => state.watchlists);
   const toggleFavorite = useWatchlistStore((state) => state.toggleFavorite);
@@ -52,6 +54,7 @@ export function WatchlistItem({
       setSymbol(tradingPair);
 
       // Navigate to analytics page
+      closeMobileSidebar();
       router.push('/analytics');
     }
   };
@@ -63,6 +66,7 @@ export function WatchlistItem({
 
     if (tradingPair) {
       setSymbol(tradingPair);
+      closeMobileSidebar();
       router.push('/analytics');
     }
   };
@@ -83,44 +87,45 @@ export function WatchlistItem({
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={`w-full px-3 py-2 flex items-center justify-between hover:bg-gray-800/50 transition-all duration-200 rounded-lg group cursor-pointer ${
+      className={`w-full px-2 sm:px-3 py-2 flex items-center justify-between hover:bg-gray-800/50 transition-all duration-200 rounded-lg group cursor-pointer ${
         isActive ? 'bg-blue-500/10 border-2 border-blue-500' : 'border-2 border-transparent'
       }`}
     >
       {/* Left: Icon + Symbol */}
-      <div className="flex items-center space-x-2 min-w-0">
+      <div className="flex items-center space-x-1.5 sm:space-x-2 min-w-0 flex-1">
+        <span className="text-base sm:text-lg flex-shrink-0">{icon}</span>
         <div className="flex flex-col items-start min-w-0">
-          <span className="text-[#e0e0e0] text-sm font-semibold truncate">
+          <span className="text-[#e0e0e0] text-xs sm:text-sm font-semibold truncate">
             {symbol}
           </span>
-          <span className="text-gray-500 text-xs truncate">
+          <span className="text-gray-500 text-[10px] sm:text-xs truncate hidden sm:block">
             {name}
           </span>
         </div>
       </div>
 
       {/* Right: Price + Change + Actions */}
-      <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+      <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
         <div className="flex flex-col items-end">
-          <span className="text-[#e0e0e0] text-sm font-mono font-medium">
-            ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <span className="text-[#e0e0e0] text-xs sm:text-sm font-mono font-medium">
+            ${price.toLocaleString('en-US', { minimumFractionDigits: price < 1 ? 4 : 2, maximumFractionDigits: price < 1 ? 4 : 2 })}
           </span>
-          <span className={`text-xs font-mono font-medium ${changeColor} flex items-center`}>
+          <span className={`text-[10px] sm:text-xs font-mono font-medium ${changeColor} flex items-center`}>
             <span className="mr-0.5">{changeIcon}</span>
             {Math.abs(change24h).toFixed(2)}%
           </span>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Action Buttons - Show on hover for desktop, always visible on mobile */}
+        <div className="flex items-center gap-0.5 sm:gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
           {/* Favorite Button */}
           <button
             onClick={handleToggleFavorite}
-            className="action-button p-1.5 rounded hover:bg-gray-700/50 transition-colors"
+            className="action-button p-1 sm:p-1.5 rounded hover:bg-gray-700/50 transition-colors"
             title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           >
             <svg
-              className={`w-4 h-4 transition-colors ${
+              className={`w-3 h-3 sm:w-4 sm:h-4 transition-colors ${
                 isFavorite ? 'text-yellow-400 fill-yellow-400' : 'text-gray-500'
               }`}
               fill={isFavorite ? 'currentColor' : 'none'}
@@ -140,11 +145,11 @@ export function WatchlistItem({
           {canRemove && watchlistId !== 'favorites' && (
             <button
               onClick={handleRemove}
-              className="action-button p-1.5 rounded hover:bg-red-500/20 transition-colors"
+              className="action-button p-1 sm:p-1.5 rounded hover:bg-red-500/20 transition-colors"
               title="Remove from watchlist"
             >
               <svg
-                className="w-4 h-4 text-gray-500 hover:text-red-400 transition-colors"
+                className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 hover:text-red-400 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
