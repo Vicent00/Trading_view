@@ -32,7 +32,7 @@ export default function Home() {
             {/* CTA Button */}
             <div className="mb-16">
               <Link
-                href="/dashboard"
+                href="/analytics"
                 className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg shadow-lg hover:from-gray-700 hover:to-gray-600 transform hover:scale-105 transition-all duration-200 hover:shadow-xl border border-gray-600"
               >
                 Ir al Dashboard

@@ -41,7 +41,7 @@ export const SymbolSelector = () => {
 
   return (
     <div className="bg-slate-900/80 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-slate-700">
-      <h3 className="text-sm font-semibold text-gray-400 mb-3">Seleccionar Criptomoneda</h3>
+      <h3 className="text-sm font-semibold text-gray-400 mb-3">Select Cryptocurrency</h3>
       <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-3">
         {SYMBOLS.map((s) => (
           <button
