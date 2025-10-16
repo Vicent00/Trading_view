@@ -1,4 +1,4 @@
-#  Crypto Tracker Dashboard
+# CryptoVista
 
 <div align="center">
 
@@ -7,90 +7,98 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Zustand](https://img.shields.io/badge/Zustand-5.0.8-FF6B6B?style=for-the-badge)
 
-**Dashboard de criptomonedas en tiempo real con gráficos profesionales y datos de Binance**
+**Professional cryptocurrency analytics platform with real-time data and advanced market insights**
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-View_App-green?style=for-the-badge)](https://your-demo-url.com)
 [![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new)
 
 </div>
 
-## ✨ Características
+## 🎯 What is CryptoVista?
 
-- 🔴 **Datos en Tiempo Real**: Conexión WebSocket a Binance para precios y trades instantáneos
-- 📊 **Gráficos Profesionales**: Candlesticks interactivos con lightweight-charts v5
-- 💰 **Múltiples Criptos**: Soporte para BTC, ETH y SOL con cambio instantáneo
-- 📈 **Historial Completo**: Carga automática de 500 velas históricas (8+ horas)
-- 🎨 **UI Moderna**: Diseño oscuro con Tailwind CSS y animaciones suaves
-- ⚡ **Ultra Rápido**: Next.js 15 con Turbopack para desarrollo instantáneo
-- 🔄 **Reconexión Inteligente**: Backoff exponencial automático en caso de desconexión
-- 📱 **Responsive**: Funciona perfectamente en desktop y móvil
+CryptoVista is a comprehensive cryptocurrency analytics platform designed for traders, investors, and crypto enthusiasts. It provides real-time market data, professional-grade charts, and advanced analytics tools to help users make informed decisions in the volatile crypto market.
 
-## 🛠️ Tecnologías
+### 🎯 Purpose & Target Audience
 
-| Tecnología | Versión | Propósito |
-|------------|---------|-----------|
-| **Next.js** | 15.5.4 | Framework React con SSR/SSG |
-| **TypeScript** | 5.0 | Tipado estático y mejor DX |
-| **Tailwind CSS** | 4.0 | Estilos utilitarios y diseño |
-| **Zustand** | 5.0.8 | Estado global minimalista |
-| **lightweight-charts** | 5.0.9 | Gráficos financieros profesionales |
-| **Binance API** | REST + WS | Datos de mercado gratuitos |
+- **Traders**: Real-time price monitoring and technical analysis
+- **Investors**: Portfolio tracking and market overview
+- **Developers**: Learning modern web development with crypto APIs
+- **Crypto Enthusiasts**: Staying updated with market trends
 
-## 🚀 Instalación Rápida
+## ✨ Key Features
 
-```bash
-# Clonar el repositorio
-git clone https://github.com/tu-usuario/crypto-tracker.git
-cd crypto-tracker
+- 🔴 **Real-Time Data**: WebSocket connection to Binance for instant price updates
+- 📊 **Professional Charts**: Interactive candlestick charts with lightweight-charts v5
+- 💰 **Multiple Cryptocurrencies**: Support for BTC, ETH, SOL with instant switching
+- 📈 **Market Overview**: Global market stats, top gainers/losers, and comprehensive market data
+- 🔍 **Advanced Analytics**: Multi-chart dashboard with customizable layouts
+- 📊 **Compare Mode**: Side-by-side price evolution comparison
+- 📱 **Watchlist Management**: Create and manage custom cryptocurrency watchlists
+- 🎨 **Modern UI**: Dark theme with professional design and smooth animations
+- ⚡ **Ultra Fast**: Next.js 15 with Turbopack for instant development
+- 🔄 **Smart Reconnection**: Exponential backoff for reliable WebSocket connections
+- 📱 **Fully Responsive**: Perfect experience on desktop and mobile devices
 
-# Instalar dependencias
-npm install
+## 🛠️ Technology Stack
 
-# Iniciar servidor de desarrollo
-npm run dev
-```
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Next.js** | 15.5.4 | React framework with SSR/SSG |
+| **TypeScript** | 5.0 | Static typing and better DX |
+| **Tailwind CSS** | 4.0 | Utility-first CSS framework |
+| **Zustand** | 5.0.8 | Lightweight state management |
+| **lightweight-charts** | 5.0.9 | Professional financial charts |
+| **Binance API** | REST + WS | Free market data |
+| **CoinGecko API** | REST | Global market statistics |
 
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador 🎉
+## 🏗️ Project Architecture
 
-## 📋 Scripts Disponibles
-
-```bash
-# Desarrollo con Turbopack (ultra rápido)
-npm run dev
-
-# Build de producción
-npm run build
-
-# Servidor de producción
-npm start
-
-# Linter y verificación de tipos
-npm run lint
-npx tsc --noEmit
-```
-
-## 🏗️ Arquitectura del Proyecto
-
+### 📁 File Structure
 ```
 src/
-├── app/                    # App Router de Next.js
-│   ├── layout.tsx          # Layout principal
-│   └── page.tsx            # Página principal
-├── components/             # Componentes React
-│   ├── Chart.tsx           # Gráfico de velas interactivo
-│   ├── ConnectionStatus.tsx # Estado de conexión WebSocket
-│   ├── PriceTicker.tsx     # Display de precio principal
-│   ├── SymbolSelector.tsx  # Selector de criptomonedas
-│   └── TradesList.tsx      # Lista de trades recientes
-├── hooks/                  # Custom hooks
-│   └── useBinanceWebSocket.ts # Hook principal de datos
-├── store/                  # Estado global
-│   └── marketStore.ts      # Store de Zustand
-└── types/                  # Definiciones TypeScript
-    └── market.ts           # Interfaces de datos
+├── app/                          # Next.js App Router
+│   ├── analytics/                # Multi-chart analytics dashboard
+│   ├── market-overview/          # Global market overview
+│   ├── compare/                  # Price comparison tool
+│   ├── layout.tsx               # Main application layout
+│   └── page.tsx                 # Landing page
+├── components/                   # React components
+│   ├── layout/                  # Layout components
+│   │   ├── AppLayout.tsx        # Main app wrapper
+│   │   ├── Navbar.tsx           # Navigation bar
+│   │   └── Sidebar.tsx          # Collapsible sidebar
+│   ├── analytics/               # Analytics components
+│   │   ├── ChartCard.tsx        # Individual chart component
+│   │   ├── GridLayout.tsx       # Chart grid layout
+│   │   └── LayoutControls.tsx   # Layout customization
+│   ├── watchlist/               # Watchlist management
+│   │   ├── WatchlistGroup.tsx   # Watchlist container
+│   │   ├── WatchlistItem.tsx    # Individual watchlist item
+│   │   ├── AddWatchlistModal.tsx # Create new watchlist
+│   │   └── AddTokenModal.tsx    # Add tokens to watchlist
+│   ├── Chart.tsx                # Main candlestick chart
+│   ├── PriceTicker.tsx          # Price display component
+│   ├── ConnectionStatus.tsx     # WebSocket status indicator
+│   └── SymbolSelector.tsx       # Cryptocurrency selector
+├── hooks/                       # Custom React hooks
+│   ├── useBinanceWebSocket.ts   # WebSocket data management
+│   ├── useBinanceTicker.ts      # 24hr ticker data
+│   └── useBinanceChart.ts       # Historical chart data
+├── store/                       # Zustand state management
+│   ├── marketStore.ts           # Main market data
+│   ├── tickerStore.ts           # 24hr ticker data
+│   ├── watchlistStore.ts        # Watchlist management
+│   └── uiStore.ts               # UI state management
+├── types/                       # TypeScript definitions
+│   ├── market.ts                # Market data interfaces
+│   ├── ticker.ts                # Ticker data interfaces
+│   └── watchlist.ts             # Watchlist interfaces
+└── utils/                       # Utility functions
+    ├── symbolMapper.ts          # Symbol mapping utilities
+    └── coingecko.ts             # CoinGecko API utilities
 ```
 
-## 🔄 Flujo de Datos
+### 🔄 Data Flow Architecture
 
 ```mermaid
 graph TD
@@ -101,64 +109,113 @@ graph TD
     E[Binance REST API] --> F[Historical Data]
     F --> C
     
-    C --> G[Chart Component]
-    C --> H[PriceTicker]
-    C --> I[TradesList]
-    C --> J[ConnectionStatus]
+    G[CoinGecko API] --> H[Global Market Data]
+    H --> I[Market Overview]
+    
+    C --> J[Chart Component]
+    C --> K[PriceTicker]
+    C --> L[Watchlist Items]
+    C --> M[ConnectionStatus]
 ```
 
-## 📊 APIs Utilizadas
+## 🚀 Quick Start
 
-### Binance WebSocket (Tiempo Real)
+```bash
+# Clone the repository
+git clone https://github.com/Vicent00/crypto-tracker.git
+cd crypto-tracker
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser 🎉
+
+## 📋 Available Scripts
+
+```bash
+# Development with Turbopack (ultra fast)
+npm run dev
+
+# Production build
+npm run build
+
+# Production server
+npm start
+
+# Linting and type checking
+npm run lint
+npx tsc --noEmit
+```
+
+## 📊 API Integration
+
+### Binance WebSocket (Real-Time)
 - **URL**: `wss://stream.binance.com:9443/stream`
-- **Streams**: `{symbol}@trade` y `{symbol}@kline_1m`
-- **Datos**: Precios, trades y velas en tiempo real
+- **Streams**: `{symbol}@trade` and `{symbol}@kline_1m`
+- **Data**: Real-time prices, trades, and candlesticks
 
-### Binance REST (Histórico)
+### Binance REST (Historical)
 - **Endpoint**: `https://api.binance.com/api/v3/klines`
-- **Parámetros**: `symbol`, `interval=1m`, `limit=500`
-- **Datos**: 500 velas históricas (8+ horas)
+- **Parameters**: `symbol`, `interval=1m`, `limit=500`
+- **Data**: 500 historical candlesticks (8+ hours)
 
-## 🎨 Componentes Principales
+### CoinGecko API (Market Data)
+- **Endpoint**: `https://api.coingecko.com/api/v3`
+- **Data**: Global market statistics, top cryptocurrencies
+- **Rate Limit**: 10-50 calls/minute (free tier)
+
+## 🎨 Core Components
 
 ### 📈 Chart Component
-- Gráfico de velas profesionales con lightweight-charts
-- Zoom, pan y herramientas interactivas
-- Colores personalizados (verde/rojo)
-- Responsive y optimizado
+- Professional candlestick charts with lightweight-charts
+- Zoom, pan, and interactive tools
+- Custom color schemes (green/red)
+- Responsive and optimized for performance
 
 ### 💰 PriceTicker
-- Display grande del precio actual
-- Animaciones de color en cambios de precio
-- Formato de moneda automático
-- Indicador de símbolo
+- Large price display with animations
+- Color-coded price change indicators
+- Automatic currency formatting
+- Real-time updates
 
-### 📋 TradesList
-- Lista de últimos 50 trades
-- Indicadores BUY/SELL con colores
-- Timestamps formateados
-- Scroll automático
+### 📊 Market Overview
+- Global cryptocurrency market statistics
+- Top gainers and losers
+- Sortable market cap table
+- Real-time data updates every 60 seconds
 
-### 🔌 ConnectionStatus
-- Estado visual de conexión WebSocket
-- Indicadores: Conectado, Conectando, Error
-- Animaciones de estado
+### 🔍 Analytics Dashboard
+- Multi-chart layout with customizable grids
+- Individual chart management
+- Real-time WebSocket connections per chart
+- Professional trading interface
 
-## ⚙️ Configuración
+### 📋 Watchlist Management
+- Create custom cryptocurrency watchlists
+- Add/remove tokens dynamically
+- Real-time price tracking
+- Persistent storage with localStorage
 
-### Variables de Entorno
-No se requieren API keys. El proyecto usa endpoints públicos de Binance.
+## ⚙️ Configuration
 
-### Personalización
-- **Símbolos**: Modifica `SYMBOLS` en `SymbolSelector.tsx`
-- **Colores**: Ajusta la paleta en `tailwind.config.js`
-- **Límites**: Cambia `MAX_TRADES` y `MAX_CANDLES` en el store
+### Environment Variables
+No API keys required. The project uses public endpoints from Binance and CoinGecko.
+
+### Customization Options
+- **Symbols**: Modify supported cryptocurrencies in components
+- **Colors**: Adjust color palette in `tailwind.config.js`
+- **Limits**: Change data limits in store configurations
+- **Intervals**: Modify chart update frequencies
 
 ## 🚀 Deployment
 
-### Vercel (Recomendado)
+### Vercel (Recommended)
 ```bash
-# Instalar Vercel CLI
+# Install Vercel CLI
 npm i -g vercel
 
 # Deploy
@@ -177,48 +234,66 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
-## 🤝 Contribuir
+## 🔧 Development Features
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+### State Management
+- **Zustand**: Lightweight state management
+- **Modular Stores**: Separate stores for different data types
+- **TypeScript**: Full type safety throughout the application
+
+### Performance Optimizations
+- **Next.js 15**: Latest framework with Turbopack
+- **Image Optimization**: Next.js Image component
+- **Code Splitting**: Automatic route-based splitting
+- **WebSocket Efficiency**: Smart reconnection and data management
+
+### Developer Experience
+- **TypeScript**: Full type safety
+- **ESLint**: Code quality enforcement
+- **Hot Reload**: Instant development feedback
+- **Responsive Design**: Mobile-first approach
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📝 Roadmap
 
-- [ ] Más intervalos de tiempo (5m, 15m, 1h, 4h, 1d)
-- [ ] Más criptomonedas (ADA, DOT, MATIC, etc.)
-- [ ] Indicadores técnicos (RSI, MACD, Bollinger Bands)
-- [ ] Alertas de precio personalizables
-- [ ] Modo oscuro/claro
-- [ ] Exportar datos a CSV
+- [ ] Additional time intervals (5m, 15m, 1h, 4h, 1d)
+- [ ] More cryptocurrencies (ADA, DOT, MATIC, etc.)
+- [ ] Technical indicators (RSI, MACD, Bollinger Bands)
+- [ ] Customizable price alerts
+- [ ] Light/dark theme toggle
+- [ ] Data export to CSV
 - [ ] PWA (Progressive Web App)
-- [ ] Notificaciones push
+- [ ] Push notifications
+- [ ] Portfolio tracking
+- [ ] Advanced charting tools
 
-## 🐛 Problemas Conocidos
+## 🐛 Known Issues
 
-- **WebSocket errors en SSR**: Normal durante server-side rendering, se resuelve en el cliente
-- **Duplicate keys en desarrollo**: Solucionado con deduplicación en el store
-- **EPERM en Windows**: Problema de permisos con `.next/trace`, solucionable ejecutando como admin
+- **WebSocket errors in SSR**: Normal during server-side rendering, resolves on client
+- **Rate limiting**: CoinGecko API has rate limits on free tier
+- **Browser compatibility**: Requires modern browsers with WebSocket support
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
+This project is licensed under the MIT License. See `LICENSE` for more details.
 
-## 🙏 Agradecimientos
+## 🙏 Acknowledgments
 
-- [Binance](https://binance.com) por la API gratuita
-- [TradingView](https://tradingview.com) por la inspiración
-- [lightweight-charts](https://tradingview.github.io/lightweight-charts/) por los gráficos
-- [Vercel](https://vercel.com) por el hosting
+- [Binance](https://binance.com) for the free API
+- [CoinGecko](https://coingecko.com) for market data
+- [TradingView](https://tradingview.com) for inspiration
+- [lightweight-charts](https://tradingview.github.io/lightweight-charts/) for the charts
+- [Vercel](https://vercel.com) for hosting
 
 ---
 
 <div align="center">
 
-**Hecho con ❤️ por [Tu Nombre]**
-
-[⭐ Star este repo](https://github.com/tu-usuario/crypto-tracker) | [🐛 Reportar bug](https://github.com/tu-usuario/crypto-tracker/issues) | [💡 Sugerir feature](https://github.com/tu-usuario/crypto-tracker/issues)
-
-</div>
+**Built with ❤️ by [Vicente Aguilar](https://github.com/Vicent00)**
