@@ -99,13 +99,13 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Sidebar - Mobile: Fixed overlay drawer | Desktop: Static sidebar */}
+      {/* Sidebar - Mobile: Fixed overlay drawer | Desktop: Sticky sidebar */}
       <aside
         className={`
           bg-[#141414] border-r border-[#1e1e1e] transition-all duration-300
           ${
             // Mobile: drawer overlay below navbar
-            'fixed lg:static top-[60px] left-0 h-[calc(100vh-60px)] z-40'
+            'fixed top-[60px] left-0 h-[calc(100vh-60px)] lg:sticky lg:top-[60px] lg:h-[calc(100vh-60px)] z-40'
           }
           ${
             // Mobile: slide in/out based on state
