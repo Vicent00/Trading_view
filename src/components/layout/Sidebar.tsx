@@ -15,7 +15,6 @@ import { useUIStore } from '@/store/uiStore';
 const navLinks = [
   { href: '/analytics', label: 'Analytics' },
   { href: '/market-overview', label: 'Market Overview' },
-  { href: '/compare', label: 'Compare' },
 ];
 
 export function Sidebar() {
@@ -92,7 +91,7 @@ export function Sidebar() {
   };
 
   const handleDeleteWatchlist = (watchlistId: string) => {
-    if (confirm('¿Estás seguro de que deseas eliminar este watchlist?')) {
+    if (confirm('Are you sure you want to delete this watchlist?')) {
       removeWatchlist(watchlistId);
     }
   };
@@ -123,7 +122,7 @@ export function Sidebar() {
           {/* Mobile Navigation Links (only visible on mobile) */}
           <div className="lg:hidden border-b border-[#1e1e1e] p-4">
             <h3 className="text-[#e0e0e0] text-xs font-bold uppercase tracking-wider mb-3">
-              Navegación
+              Navigation
             </h3>
             <div className="space-y-1">
               {navLinks.map((link) => {
@@ -153,7 +152,7 @@ export function Sidebar() {
                 onClick={() => setIsCollapsed(false)}
                 className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
                 aria-label="Expand sidebar"
-                title="Expandir sidebar"
+                title="Expand sidebar"
               >
                 <svg
                   className="w-5 h-5 transition-transform"
@@ -186,7 +185,7 @@ export function Sidebar() {
                     <button
                       onClick={() => setShowAddWatchlistModal(true)}
                       className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
-                      title="Crear nuevo watchlist"
+                      title="Create new watchlist"
                     >
                       <svg
                         className="w-4 h-4"
@@ -207,7 +206,7 @@ export function Sidebar() {
                       onClick={closeMobileSidebar}
                       className="lg:hidden w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
                       aria-label="Close sidebar"
-                      title="Cerrar sidebar"
+                      title="Close sidebar"
                     >
                       <svg
                         className="w-4 h-4"
@@ -228,7 +227,7 @@ export function Sidebar() {
                       onClick={() => setIsCollapsed(!isCollapsed)}
                       className="hidden lg:flex w-6 h-6 items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
                       aria-label="Toggle sidebar"
-                      title="Colapsar/Expandir sidebar"
+                      title="Collapse/Expand sidebar"
                     >
                       <svg
                         className={`w-4 h-4 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}

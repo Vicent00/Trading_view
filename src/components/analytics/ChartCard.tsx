@@ -60,13 +60,13 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
 
   const cryptoInfo = CRYPTO_INFO[symbol];
 
-  // Get favorites from watchlist
-  const favoritesWatchlist = watchlists.find((w) => w.id === 'favorites');
-  const favoriteSymbols = favoritesWatchlist?.symbols || [];
-
   // Filtrar y organizar tokens
   const { favoriteTokens, allTokens } = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
+    
+    // Get favorites from watchlist
+    const favoritesWatchlist = watchlists.find((w) => w.id === 'favorites');
+    const favoriteSymbols = favoritesWatchlist?.symbols || [];
 
     // Filtrar tokens disponibles
     const filtered = availableTokens.filter((token) => {
@@ -91,7 +91,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       favoriteTokens: favorites,
       allTokens: all,
     };
-  }, [availableTokens, favoriteSymbols, searchQuery]);
+  }, [availableTokens, searchQuery, watchlists]);
 
   // Cerrar menú al hacer click fuera y auto-focus en búsqueda
   useEffect(() => {

@@ -93,7 +93,7 @@ export const LayoutControls = () => {
 
         {/* Info text */}
         <div className="text-xs text-gray-400 hidden lg:block">
-          Cada gráfico se actualiza en tiempo real con su propio WebSocket
+          Each chart updates in real-time with its own WebSocket
         </div>
       </div>
     </div>

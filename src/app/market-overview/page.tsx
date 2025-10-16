@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { fetchGlobalStats, fetchTopMarkets, MarketRowResponse } from '@/utils/coingecko';
 import { GlobalStats, MarketRow } from '@/types/marketOverview';
@@ -35,8 +36,9 @@ export default function MarketOverviewPage() {
 
       setGlobalStats(gs);
       setMarkets(mapped);
-    } catch (e: any) {
-      setError(e?.message || 'Failed to load data');
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : 'Failed to load data';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -68,7 +70,7 @@ export default function MarketOverviewPage() {
   }, [markets]);
 
   const displayedMarkets = useMemo(() => {
-    let result = [...markets];
+    const result = [...markets];
     
     if (sortColumn) {
       result.sort((a, b) => {
@@ -101,7 +103,7 @@ export default function MarketOverviewPage() {
       <div className="p-3 sm:p-4 md:p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-200">Market Overview</h1>
-          {loading && <span className="text-xs text-gray-500 animate-pulse">Actualizando…</span>}
+          {loading && <span className="text-xs text-gray-500 animate-pulse">Updating…</span>}
         </div>
 
         {error && (
@@ -219,7 +221,7 @@ function MoversList({ title, items, type }: { title: string; items: MarketRow[];
               }`}>
                 {index + 1}
               </div>
-              <img src={m.image} alt={m.name} className="w-5 h-5 rounded-full" />
+              <Image src={m.image} alt={m.name} width={20} height={20} className="w-5 h-5 rounded-full" />
               <div className="flex items-center gap-2 min-w-0">
                 <span className="text-white text-sm font-medium truncate max-w-[120px] sm:max-w-[160px]">{m.name}</span>
                 <span className="text-gray-200 text-xs uppercase font-medium">{m.symbol}</span>
@@ -323,7 +325,7 @@ function MarketTable({
             <div key={m.id} className="px-4 py-3 md:grid md:grid-cols-[2fr_1fr_1fr_1fr_1fr] md:items-center hover:bg-gray-800/40 cursor-pointer transition-colors duration-150">
               {/* Mobile stacked */}
               <div className="flex items-center gap-3">
-                <img src={m.image} alt={m.name} className="w-6 h-6 rounded-full" />
+                <Image src={m.image} alt={m.name} width={24} height={24} className="w-6 h-6 rounded-full" />
                 <div className="flex items-center gap-2">
                   <span className="text-gray-200 text-sm font-medium">{m.name}</span>
                   <span className="text-gray-500 text-xs uppercase font-medium">{m.symbol}</span>
@@ -350,7 +352,7 @@ function MarketTable({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-            Ver más tokens
+                Show more tokens
           </button>
         ) : showAll && hasMore ? (
           <button
@@ -360,7 +362,7 @@ function MarketTable({
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
             </svg>
-            Ver menos
+                Show less
           </button>
         ) : null}
       </div>

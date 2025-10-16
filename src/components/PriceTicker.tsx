@@ -50,7 +50,7 @@ export const PriceTicker = () => {
             priceChange === 'up' ? 'text-green-400' : 'text-red-400'
           }`}>
             {priceChange === 'up' ? '↑' : '↓'}
-            {priceChange === 'up' ? 'Subiendo' : 'Bajando'}
+            {priceChange === 'up' ? 'Rising' : 'Falling'}
           </div>
         )}
       </div>

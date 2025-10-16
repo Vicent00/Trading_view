@@ -20,11 +20,11 @@ export default function Home() {
             <div className="mb-6 sm:mb-8">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-100 via-white to-gray-200 drop-shadow-[0_0_12px_rgba(255,255,255,0.08)]">
-                  Crypto Tracker
+                  CryptoVista
                 </span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 font-light px-4">
-                Monitoriza tus criptomonedas favoritas en tiempo real
+                Monitor your favorite cryptocurrencies in real-time
               </p>
             </div>
 
@@ -34,7 +34,7 @@ export default function Home() {
                 href="/analytics"
                 className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white rounded-xl bg-white/5 hover:bg_white/10 border border-white/15 shadow-lg hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 backdrop-blur"
               >
-                Ir al Dashboard
+                Go to Dashboard
                 <svg className="ml-2 w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -45,25 +45,25 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-5xl mx-auto px-4">
               {/* Feature 1 */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-white/30 transition-all duration-300 hover:-translate-y-0.5">
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Datos en Tiempo Real</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Real-Time Data</h3>
                 <p className="text-sm sm:text-base text-gray-400">
-                  Conexión directa con el WebSocket de Binance para actualizaciones instantáneas
+                  Direct connection to Binance WebSocket for instant updates
                 </p>
               </div>
 
               {/* Feature 2 */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-white/30 transition-all duration-300 hover:-translate-y-0.5">
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Gráficos Interactivos</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Interactive Charts</h3>
                 <p className="text-sm sm:text-base text-gray-400">
-                  Visualiza velas de 1 minuto con gráficos profesionales de TradingView
+                  Visualize 1-minute candles with professional TradingView charts
                 </p>
               </div>
 
               {/* Feature 3 */}
               <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-white/10 hover:border-white/30 transition-all duration-300 hover:-translate-y-0.5 sm:col-span-2 md:col-span-1">
-                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Múltiples Criptos</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">Multiple Cryptos</h3>
                 <p className="text-sm sm:text-base text-gray-400">
-                  Monitoriza Bitcoin (BTC), Ethereum (ETH) y Solana (SOL) en un solo lugar
+                  Monitor Bitcoin (BTC), Ethereum (ETH) and Solana (SOL) in one place
                 </p>
               </div>
             </div>
@@ -81,7 +81,7 @@ export default function Home() {
             <span className="text-gray-300 font-semibold">Lightweight Charts</span>
           </p>
           <p className="text-gray-500 text-xs sm:text-sm mt-2">
-            Crypto Tracker © 2025 - Datos en tiempo real sin necesidad de API keys
+            CryptoVista © 2025 - Real-time data without API keys required
           </p>
         </div>
       </footer>
