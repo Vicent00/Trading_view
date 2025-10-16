@@ -118,49 +118,7 @@ export function Sidebar() {
         `}
       >
         <div className="flex flex-col h-full">
-          {/* Header with Close/Toggle buttons */}
-          <div className="p-4 border-b border-[#1e1e1e] flex items-center justify-between">
-            {/* Close button (mobile only) */}
-            <button
-              onClick={closeMobileSidebar}
-              className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-[#1a1a1a] transition-colors"
-              aria-label="Close sidebar"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-
-            {/* Toggle collapse button (desktop only) */}
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              className="hidden lg:flex ml-auto text-gray-400 hover:text-gray-200 transition-colors"
-            >
-              <svg
-                className={`w-5 h-5 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
-                />
-              </svg>
-            </button>
-          </div>
+          {/* Top spacing compact, toggle relocated into Watchlists header */}
 
           {/* Mobile Navigation Links (only visible on mobile) */}
           <div className="lg:hidden border-b border-[#1e1e1e] p-4">
@@ -188,8 +146,34 @@ export function Sidebar() {
             </div>
           </div>
 
+          {/* Toggle button when collapsed (desktop only) */}
+          {isCollapsed && (
+            <div className="hidden lg:flex justify-center p-4">
+              <button
+                onClick={() => setIsCollapsed(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                aria-label="Expand sidebar"
+                title="Expandir sidebar"
+              >
+                <svg
+                  className="w-5 h-5 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
+
           {/* Watchlists Content */}
-          {!isCollapsed && (
+          {(!isCollapsed || isMobileSidebarOpen) && (
             <div className="flex-1 overflow-y-auto">
               {/* Header */}
               <div className="p-4 border-b border-[#1e1e1e]">
@@ -197,25 +181,70 @@ export function Sidebar() {
                   <h2 className="text-[#e0e0e0] text-xs font-bold uppercase tracking-wider">
                     Watchlists
                   </h2>
-                  <button
-                    onClick={() => setShowAddWatchlistModal(true)}
-                    className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
-                    title="Add watchlist"
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                  <div className="flex items-center gap-2">
+                    {/* Add watchlist button */}
+                    <button
+                      onClick={() => setShowAddWatchlistModal(true)}
+                      className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      title="Crear nuevo watchlist"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 4v16m8-8H4"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
+                      </svg>
+                    </button>
+                    {/* Close button (mobile only) */}
+                    <button
+                      onClick={closeMobileSidebar}
+                      className="lg:hidden w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      aria-label="Close sidebar"
+                      title="Cerrar sidebar"
+                    >
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                    {/* Toggle collapse (desktop only) */}
+                    <button
+                      onClick={() => setIsCollapsed(!isCollapsed)}
+                      className="hidden lg:flex w-6 h-6 items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      aria-label="Toggle sidebar"
+                      title="Colapsar/Expandir sidebar"
+                    >
+                      <svg
+                        className={`w-4 h-4 transition-transform ${isCollapsed ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
 
