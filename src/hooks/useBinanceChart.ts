@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import type { CryptoSymbol, Candle, BinanceKlineRaw, BinanceStreamMessage, BinanceKlineMessage, ConnectionState } from '@/types/market';
 import type { Timeframe } from '@/store/analyticsStore';
 
 const BASE_URL = 'wss://stream.binance.com:9443/stream?streams=';
-const INITIAL_RECONNECT_DELAY = 1000;
-const MAX_RECONNECT_DELAY = 30000;
+const RECONNECT_DELAY = 3000; // Delay fijo y simple para reconexión
 
 // Mapeo de timeframes a intervalos de Binance
 const TIMEFRAME_TO_INTERVAL: Record<Timeframe, string> = {
@@ -24,10 +23,15 @@ interface UseBinanceChartReturn {
 }
 
 /**
- * Hook para manejar WebSocket y datos de un chart individual
- * Cada instancia de este hook gestiona su propia conexión WebSocket
+ * Hook simplificado para manejar WebSocket y datos de un chart individual
+ * Versión refactorizada para eliminar race conditions y simplificar el código
+ *
+ * @param chartId - ID único del chart
+ * @param symbol - Símbolo de la criptomoneda
+ * @param timeframe - Intervalo de tiempo
  */
 export const useBinanceChart = (
+  chartId: string,
   symbol: CryptoSymbol,
   timeframe: Timeframe
 ): UseBinanceChartReturn => {
@@ -38,60 +42,62 @@ export const useBinanceChart = (
   const [connectionState, setConnectionState] = useState<ConnectionState>('disconnected');
   const [isLoading, setIsLoading] = useState(true);
 
-  const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const reconnectDelayRef = useRef(INITIAL_RECONNECT_DELAY);
-  const shouldConnectRef = useRef(true);
-  const isCleaningUpRef = useRef(false);
-
-  // Calcular cambio de precio cuando se actualizan las velas
-  const calculatePriceChange = useCallback((candleData: Candle[]) => {
-    if (candleData.length < 2) return;
-
-    const latestCandle = candleData[candleData.length - 1];
-    const firstCandle = candleData[0];
-
-    const change = latestCandle.close - firstCandle.open;
-    const changePercent = ((change / firstCandle.open) * 100);
-
-    setPriceChange(change);
-    setPriceChangePercent(changePercent);
-  }, []);
-
-  // Actualizar vela existente o agregar nueva
-  const updateCandleData = useCallback((newCandle: Candle) => {
-    setCandles((prevCandles) => {
-      const existingIndex = prevCandles.findIndex((c) => c.time === newCandle.time);
-
-      let updatedCandles: Candle[];
-      if (existingIndex !== -1) {
-        // Actualizar vela existente
-        updatedCandles = [...prevCandles];
-        updatedCandles[existingIndex] = newCandle;
-      } else {
-        // Agregar nueva vela y ordenar
-        updatedCandles = [...prevCandles, newCandle].sort((a, b) => a.time - b.time);
-        // Limitar a 500 velas máximo
-        if (updatedCandles.length > 500) {
-          updatedCandles = updatedCandles.slice(-500);
-        }
-      }
-
-      calculatePriceChange(updatedCandles);
-      return updatedCandles;
-    });
-
-    setCurrentPrice(newCandle.close);
-  }, [calculatePriceChange]);
-
   useEffect(() => {
-    shouldConnectRef.current = true;
-    isCleaningUpRef.current = false;
+    const instanceId = `${chartId}:${symbol}-${timeframe}`;
+    console.log(`[Chart:${instanceId}] 🎬 Iniciando`);
+
+    // Variables locales para este efecto específico
+    let ws: WebSocket | null = null;
+    let reconnectTimer: NodeJS.Timeout | null = null;
+    let connectionTimer: NodeJS.Timeout | null = null;
+    let isCancelled = false;
 
     const interval = TIMEFRAME_TO_INTERVAL[timeframe];
 
-    // Cargar datos históricos
+    // Función para calcular cambio de precio
+    const calculatePriceChange = (candleData: Candle[]) => {
+      if (candleData.length < 2) return;
+
+      const latestCandle = candleData[candleData.length - 1];
+      const firstCandle = candleData[0];
+
+      const change = latestCandle.close - firstCandle.open;
+      const changePercent = ((change / firstCandle.open) * 100);
+
+      setPriceChange(change);
+      setPriceChangePercent(changePercent);
+    };
+
+    // Función para actualizar velas
+    const updateCandleData = (newCandle: Candle) => {
+      setCandles((prevCandles) => {
+        const existingIndex = prevCandles.findIndex((c) => c.time === newCandle.time);
+
+        let updatedCandles: Candle[];
+        if (existingIndex !== -1) {
+          // Actualizar vela existente
+          updatedCandles = [...prevCandles];
+          updatedCandles[existingIndex] = newCandle;
+        } else {
+          // Agregar nueva vela y ordenar
+          updatedCandles = [...prevCandles, newCandle].sort((a, b) => a.time - b.time);
+          // Limitar a 500 velas máximo
+          if (updatedCandles.length > 500) {
+            updatedCandles = updatedCandles.slice(-500);
+          }
+        }
+
+        calculatePriceChange(updatedCandles);
+        return updatedCandles;
+      });
+
+      setCurrentPrice(newCandle.close);
+    };
+
+    // Función para cargar datos históricos
     const loadHistorical = async () => {
+      if (isCancelled) return;
+
       setIsLoading(true);
       try {
         const limit = timeframe === '1m' ? 500 : timeframe === '5m' ? 288 : timeframe === '15m' ? 96 : 168;
@@ -100,8 +106,8 @@ export const useBinanceChart = (
         );
 
         if (!res.ok) {
-          console.error(`[Chart ${symbol}] Failed to load historical data`);
-          setIsLoading(false);
+          console.error(`[Chart:${instanceId}] ❌ Error cargando histórico`);
+          if (!isCancelled) setIsLoading(false);
           return;
         }
 
@@ -115,7 +121,7 @@ export const useBinanceChart = (
           volume: parseFloat(d[5]),
         }));
 
-        if (shouldConnectRef.current && !isCleaningUpRef.current) {
+        if (!isCancelled) {
           setCandles(historicalCandles);
           if (historicalCandles.length > 0) {
             const latest = historicalCandles[historicalCandles.length - 1];
@@ -123,17 +129,20 @@ export const useBinanceChart = (
             calculatePriceChange(historicalCandles);
           }
           setIsLoading(false);
+          console.log(`[Chart:${instanceId}] ✅ Histórico cargado (${historicalCandles.length} velas)`);
         }
       } catch (e) {
-        console.error(`[Chart ${symbol}] Error loading historical klines:`, e);
-        if (shouldConnectRef.current) {
-          setIsLoading(false);
-        }
+        console.error(`[Chart:${instanceId}] ❌ Error en fetch:`, e);
+        if (!isCancelled) setIsLoading(false);
       }
     };
 
+    // Función para conectar WebSocket
     const connect = () => {
-      if (!shouldConnectRef.current) return;
+      if (isCancelled) {
+        console.log(`[Chart:${instanceId}] ⚠️  Conexión cancelada antes de iniciar`);
+        return;
+      }
 
       try {
         setConnectionState('connecting');
@@ -141,17 +150,22 @@ export const useBinanceChart = (
         const stream = `${symbol}@kline_${interval}`;
         const url = `${BASE_URL}${stream}`;
 
-        const ws = new WebSocket(url);
-        wsRef.current = ws;
+        console.log(`[Chart:${instanceId}] 🔌 Conectando a ${stream}`);
+
+        ws = new WebSocket(url);
 
         ws.onopen = () => {
-          console.log(`[Chart ${symbol}] WebSocket connected (${timeframe})`);
+          if (isCancelled) {
+            console.log(`[Chart:${instanceId}] ⚠️  Conectado pero cancelado, cerrando`);
+            ws?.close();
+            return;
+          }
+          console.log(`[Chart:${instanceId}] ✅ Conectado`);
           setConnectionState('connected');
-          reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
         };
 
         ws.onmessage = (event) => {
-          if (isCleaningUpRef.current) return;
+          if (isCancelled) return;
 
           try {
             const message: BinanceStreamMessage = JSON.parse(event.data);
@@ -172,64 +186,82 @@ export const useBinanceChart = (
               updateCandleData(candle);
             }
           } catch (error) {
-            console.error(`[Chart ${symbol}] Error parsing WebSocket message:`, error);
+            console.error(`[Chart:${instanceId}] ❌ Error parseando mensaje:`, error);
           }
         };
 
         ws.onerror = (error) => {
-          console.error(`[Chart ${symbol}] WebSocket error:`, error);
-          setConnectionState('error');
+          console.error(`[Chart:${instanceId}] ❌ WebSocket error:`, error);
+          if (!isCancelled) setConnectionState('error');
         };
 
         ws.onclose = () => {
-          console.log(`[Chart ${symbol}] WebSocket closed`);
-          setConnectionState('disconnected');
-          wsRef.current = null;
+          console.log(`[Chart:${instanceId}] 🔌 Desconectado`);
+          if (!isCancelled) {
+            setConnectionState('disconnected');
 
-          if (shouldConnectRef.current) {
-            reconnectTimeoutRef.current = setTimeout(() => {
-              if (!shouldConnectRef.current) return;
-              console.log(`[Chart ${symbol}] Reconnecting in ${reconnectDelayRef.current}ms...`);
-              connect();
-              reconnectDelayRef.current = Math.min(
-                reconnectDelayRef.current * 2,
-                MAX_RECONNECT_DELAY
-              );
-            }, reconnectDelayRef.current);
+            // Reconexión simple después de 3 segundos
+            console.log(`[Chart:${instanceId}] 🔄 Reconectando en ${RECONNECT_DELAY}ms`);
+            reconnectTimer = setTimeout(() => {
+              if (!isCancelled) {
+                console.log(`[Chart:${instanceId}] 🔄 Intentando reconectar`);
+                connect();
+              }
+            }, RECONNECT_DELAY);
           }
         };
       } catch (error) {
-        console.error(`[Chart ${symbol}] Error creating WebSocket:`, error);
-        setConnectionState('error');
+        console.error(`[Chart:${instanceId}] ❌ Error creando WebSocket:`, error);
+        if (!isCancelled) setConnectionState('error');
       }
     };
 
-    // Cargar histórico y conectar WebSocket
-    loadHistorical().then(() => {
-      if (shouldConnectRef.current) {
-        connect();
-      }
-    });
+    // Iniciar carga y conexión
+    const init = async () => {
+      await loadHistorical();
 
-    // Cleanup
+      if (!isCancelled) {
+        // Delay mínimo de 100ms antes de conectar
+        connectionTimer = setTimeout(() => {
+          if (!isCancelled) {
+            connect();
+          }
+        }, 100);
+      }
+    };
+
+    init();
+
+    // Cleanup function - SE EJECUTA CUANDO EL COMPONENTE SE DESMONTA O LAS DEPENDENCIAS CAMBIAN
     return () => {
-      console.log(`[Chart ${symbol}] Cleaning up`);
-      isCleaningUpRef.current = true;
-      shouldConnectRef.current = false;
+      console.log(`[Chart:${instanceId}] 🧹 CLEANUP`);
 
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current);
-        reconnectTimeoutRef.current = null;
+      // Marcar como cancelado PRIMERO
+      isCancelled = true;
+
+      // Cancelar todos los timers
+      if (connectionTimer) {
+        clearTimeout(connectionTimer);
+        connectionTimer = null;
+      }
+      if (reconnectTimer) {
+        clearTimeout(reconnectTimer);
+        reconnectTimer = null;
       }
 
-      if (wsRef.current) {
-        wsRef.current.close();
-        wsRef.current = null;
+      // Cerrar WebSocket
+      if (ws) {
+        ws.onclose = null; // Prevenir que se ejecute el callback de reconexión
+        ws.onerror = null;
+        ws.onmessage = null;
+        ws.onopen = null;
+        ws.close();
+        ws = null;
       }
 
-      reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
+      console.log(`[Chart:${instanceId}] ✅ Cleanup completo`);
     };
-  }, [symbol, timeframe, updateCandleData, calculatePriceChange]);
+  }, [chartId, symbol, timeframe]); // Solo las dependencias esenciales
 
   return {
     candles,

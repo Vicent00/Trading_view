@@ -3,8 +3,12 @@
 import { AppLayout } from '@/components/layout/AppLayout';
 import { LayoutControls } from '@/components/analytics/LayoutControls';
 import { GridLayout } from '@/components/analytics/GridLayout';
+import { useBinanceTicker } from '@/hooks/useBinanceTicker';
 
 export default function AnalyticsPage() {
+  // Activar ticker para precios en tiempo real en el dropdown
+  useBinanceTicker();
+
   return (
     <AppLayout>
       <div className="min-h-full bg-gradient-to-br from-black via-gray-900 to-slate-900">

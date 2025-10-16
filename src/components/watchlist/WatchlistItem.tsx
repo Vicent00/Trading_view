@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useMarketStore } from '@/store/marketStore';
 import { useWatchlistStore } from '@/store/watchlistStore';
 import { mapSymbolToTradingPair, mapTradingPairToSymbol } from '@/utils/symbolMapper';
@@ -22,6 +22,7 @@ export function WatchlistItem({
   canRemove = true
 }: WatchlistItemProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const currentSymbol = useMarketStore((state) => state.symbol);
   const setSymbol = useMarketStore((state) => state.setSymbol);
   const closeMobileSidebar = useUIStore((state) => state.closeMobileSidebar);
@@ -53,9 +54,14 @@ export function WatchlistItem({
       // Update store with new symbol
       setSymbol(tradingPair);
 
-      // Navigate to analytics page
+      // Close mobile sidebar
       closeMobileSidebar();
-      router.push('/analytics');
+
+      // Only navigate if NOT already on analytics page
+      // This prevents page reload
+      if (pathname !== '/analytics') {
+        router.push('/analytics');
+      }
     }
   };
 
@@ -67,7 +73,11 @@ export function WatchlistItem({
     if (tradingPair) {
       setSymbol(tradingPair);
       closeMobileSidebar();
-      router.push('/analytics');
+
+      // Only navigate if NOT already on analytics page
+      if (pathname !== '/analytics') {
+        router.push('/analytics');
+      }
     }
   };
 
@@ -87,7 +97,7 @@ export function WatchlistItem({
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={`w-full px-2 sm:px-3 py-2 flex items-center justify-between hover:bg-gray-800/50 transition-all duration-200 rounded-lg group cursor-pointer ${
+      className={`w-full px-2 sm:px-3 py-2 flex items-center justify-between hover:bg-gray-800/50 transition-all duration-200 rounded-lg group cursor-pointer focus:outline-none ${
         isActive ? 'bg-blue-500/10 border-2 border-blue-500' : 'border-2 border-transparent'
       }`}
     >
