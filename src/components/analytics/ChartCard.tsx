@@ -133,6 +133,8 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       timeScale: {
         timeVisible: true,
         secondsVisible: false,
+        fixLeftEdge: false,
+        fixRightEdge: false,
       },
       rightPriceScale: {
         borderVisible: false,
@@ -156,7 +158,36 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
     chartRef.current = chart;
     seriesRef.current = candlestickSeries;
 
+    // Usar ResizeObserver para detectar cambios de tamaño del contenedor
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!chartRef.current || !chartContainerRef.current) return;
+
+      const { width, height } = entries[0].contentRect;
+
+      // Solo actualizar si las dimensiones son válidas
+      if (width > 0 && height > 0) {
+        chartRef.current.applyOptions({ width, height });
+
+        // Ajustar el contenido del chart después del resize
+        setTimeout(() => {
+          if (chartRef.current) {
+            chartRef.current.timeScale().fitContent();
+          }
+        }, 0);
+      }
+    });
+
+    resizeObserver.observe(chartContainerRef.current);
+
+    // Ajustar contenido inicial después de un pequeño delay para asegurar que el DOM está renderizado
+    setTimeout(() => {
+      if (chartRef.current) {
+        chartRef.current.timeScale().fitContent();
+      }
+    }, 100);
+
     return () => {
+      resizeObserver.disconnect();
       if (chartRef.current) {
         chartRef.current.remove();
         chartRef.current = null;
@@ -179,25 +210,15 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       }));
 
       seriesRef.current.setData(chartData);
+
+      // Ajustar el contenido del chart después de cargar nuevos datos
+      if (chartRef.current) {
+        chartRef.current.timeScale().fitContent();
+      }
     } catch (error) {
       console.error(`[ChartCard ${chartId}] Error updating chart:`, error);
     }
   }, [candles, chartId]);
-
-  // Handle resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (chartContainerRef.current && chartRef.current) {
-        chartRef.current.applyOptions({
-          width: chartContainerRef.current.clientWidth,
-          height: chartContainerRef.current.clientHeight,
-        });
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   const handleSymbolChange = (tradingPair: CryptoSymbol) => {
     console.log(`[ChartCard] 🔄 Changing ${chartId} from ${symbol} to ${tradingPair}`);
