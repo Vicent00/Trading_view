@@ -122,11 +122,11 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: 'transparent' },
-        textColor: '#94A3B8',
+        textColor: '#93C5FD',
       },
       grid: {
-        vertLines: { color: '#1E293B', style: 1 },
-        horzLines: { color: '#1E293B', style: 1 },
+        vertLines: { color: '#1a1f3a', style: 1 },
+        horzLines: { color: '#1a1f3a', style: 1 },
       },
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
@@ -257,33 +257,33 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       <button
         key={token.tradingPair}
         onClick={() => handleSymbolChange(token.tradingPair as CryptoSymbol)}
-        className={`w-full px-3 py-2.5 text-left hover:bg-slate-700/50 transition-colors flex items-center justify-between group ${
-          isSelected ? 'bg-slate-700/70' : ''
+        className={`w-full px-3 py-2.5 text-left hover:bg-blue-500/10 transition-all flex items-center justify-between group ${
+          isSelected ? 'bg-blue-500/20 border-l-2 border-blue-400' : ''
         }`}
       >
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <div
-            className="w-2 h-2 rounded-full flex-shrink-0"
-            style={{ backgroundColor: tokenColor }}
+            className="w-2 h-2 rounded-full flex-shrink-0 shadow-lg"
+            style={{ backgroundColor: tokenColor, boxShadow: `0 0 8px ${tokenColor}40` }}
           />
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline gap-1.5">
-              <span className={`font-semibold text-sm ${isSelected ? 'text-white' : 'text-gray-200'}`}>
+              <span className={`font-semibold text-sm ${isSelected ? 'text-blue-100' : 'text-blue-200/90'}`}>
                 {token.symbol}
               </span>
-              <span className="text-xs text-gray-400 truncate">{token.name}</span>
+              <span className="text-xs text-blue-300/50 truncate">{token.name}</span>
             </div>
           </div>
         </div>
 
         {ticker && (
           <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-            <span className="text-xs text-gray-300 font-medium">
+            <span className="text-xs text-blue-200/80 font-medium">
               {formatPrice(ticker.price)}
             </span>
             <span
               className={`text-xs font-medium ${
-                ticker.change24h >= 0 ? 'text-green-400' : 'text-red-400'
+                ticker.change24h >= 0 ? 'text-emerald-400' : 'text-red-400'
               }`}
             >
               {ticker.change24h >= 0 ? '↗' : '↘'} {formatPercent(ticker.change24h)}%
@@ -295,30 +295,30 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
   };
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-sm rounded-lg border border-slate-700/50 overflow-hidden flex flex-col h-full">
+    <div className="bg-[#0f1436]/70 backdrop-blur-md rounded-xl border border-blue-500/20 overflow-hidden flex flex-col h-full shadow-2xl shadow-blue-900/20">
       {/* Header */}
-      <div className="px-3 py-2 border-b border-slate-700/50 flex items-center justify-between bg-slate-800/50">
+      <div className="px-3 py-2 border-b border-blue-500/20 flex items-center justify-between bg-gradient-to-r from-[#1a1f3a]/60 to-[#0f1436]/60">
         <div className="flex items-center gap-2 min-w-0">
           <div
             className="w-2 h-2 rounded-full flex-shrink-0"
             style={{ backgroundColor: cryptoInfo.color }}
           />
           <div className="flex items-baseline gap-1.5 min-w-0">
-            <span className="font-bold text-white text-sm">{cryptoInfo.name}</span>
-            <span className="text-xs text-gray-400">/USDT</span>
+            <span className="font-bold text-blue-100 text-sm">{cryptoInfo.name}</span>
+            <span className="text-xs text-blue-300/60">/USDT</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {/* Precio y cambio */}
           <div className="flex flex-col items-end">
-            <span className="text-white font-semibold text-sm whitespace-nowrap">
+            <span className="text-blue-50 font-semibold text-sm whitespace-nowrap">
               {formatPrice(currentPrice)}
             </span>
             {priceChangePercent !== null && (
               <span
                 className={`text-xs font-medium ${
-                  priceChangePercent >= 0 ? 'text-green-400' : 'text-red-400'
+                  priceChangePercent >= 0 ? 'text-emerald-400' : 'text-red-400'
                 }`}
               >
                 {priceChangePercent >= 0 ? '↗' : '↘'} {formatPercent(priceChangePercent)}%
@@ -330,7 +330,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="text-gray-400 hover:text-white transition-colors p-1 hover:bg-slate-700 rounded"
+              className="text-blue-300/60 hover:text-blue-100 transition-all p-1 hover:bg-blue-500/20 rounded-md"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
                 <circle cx="8" cy="3" r="1.5" />
@@ -340,12 +340,12 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 top-full mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50 min-w-[320px] max-w-[400px] max-h-[500px] overflow-hidden flex flex-col">
+              <div className="absolute right-0 top-full mt-1 bg-[#0f1436]/95 backdrop-blur-lg border border-blue-500/30 rounded-xl shadow-2xl shadow-blue-900/30 z-50 min-w-[320px] max-w-[400px] max-h-[500px] overflow-hidden flex flex-col">
                 {/* Barra de búsqueda */}
-                <div className="p-3 border-b border-slate-700/50">
+                <div className="p-3 border-b border-blue-500/20">
                   <div className="relative">
                     <svg
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-300/60"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -363,12 +363,12 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Buscar token..."
-                      className="w-full pl-10 pr-3 py-2 bg-slate-900 border border-slate-600 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-3 py-2 bg-[#1a1f3a]/60 border border-blue-500/30 rounded-lg text-sm text-blue-100 placeholder-blue-300/40 focus:outline-none focus:border-blue-400 focus:shadow-lg focus:shadow-blue-500/20 transition-all"
                     />
                     {searchQuery && (
                       <button
                         onClick={() => setSearchQuery('')}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-300/60 hover:text-blue-100"
                       >
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path
@@ -387,7 +387,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
                   {/* Favoritos */}
                   {favoriteTokens.length > 0 && (
                     <div>
-                      <div className="px-3 py-2 text-xs text-gray-400 font-semibold uppercase tracking-wider bg-slate-800/50 sticky top-0 z-10">
+                      <div className="px-3 py-2 text-xs text-blue-200/70 font-semibold uppercase tracking-wider bg-[#1a1f3a]/40 sticky top-0 z-10 backdrop-blur-sm">
                         ⭐ Favoritos
                       </div>
                       <div>
@@ -399,7 +399,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
                   {/* Todos los tokens */}
                   {allTokens.length > 0 && (
                     <div>
-                      <div className="px-3 py-2 text-xs text-gray-400 font-semibold uppercase tracking-wider bg-slate-800/50 sticky top-0 z-10">
+                      <div className="px-3 py-2 text-xs text-blue-200/70 font-semibold uppercase tracking-wider bg-[#1a1f3a]/40 sticky top-0 z-10 backdrop-blur-sm">
                         📊 Todos los tokens
                       </div>
                       <div>
@@ -410,7 +410,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
 
                   {/* No results */}
                   {favoriteTokens.length === 0 && allTokens.length === 0 && (
-                    <div className="flex flex-col items-center justify-center py-8 text-gray-500">
+                    <div className="flex flex-col items-center justify-center py-8 text-blue-300/50">
                       <svg className="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
@@ -431,18 +431,21 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       </div>
 
       {/* Timeframe Selector */}
-      <div className="px-3 py-2 border-b border-slate-700/50 bg-slate-800/30">
+      <div className="px-3 py-2 border-b border-blue-500/20 bg-gradient-to-r from-[#1a1f3a]/30 to-[#0f1436]/30">
         <TimeframeSelector currentTimeframe={timeframe} onTimeframeChange={handleTimeframeChange} />
       </div>
 
       {/* Chart Area */}
-      <div className="flex-1 relative min-h-0">
+      <div className="flex-1 relative min-h-0 bg-gradient-to-br from-[#0a0e27]/50 to-[#14183a]/50">
         <div ref={chartContainerRef} className="absolute inset-0" />
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm">
-            <div className="flex flex-col items-center gap-2">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-              <div className="text-gray-400 text-xs">Cargando...</div>
+          <div className="absolute inset-0 flex items-center justify-center bg-[#0f1436]/90 backdrop-blur-md">
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-t-2 border-blue-500"></div>
+                <div className="absolute inset-0 animate-ping rounded-full h-10 w-10 border border-blue-400/30"></div>
+              </div>
+              <div className="text-blue-200/80 text-xs font-medium">Cargando datos...</div>
             </div>
           </div>
         )}
@@ -455,17 +458,19 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
         }
 
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #1e293b;
+          background: #1a1f3a;
           border-radius: 3px;
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #475569;
+          background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
           border-radius: 3px;
+          box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #64748b;
+          background: linear-gradient(180deg, #60a5fa 0%, #a78bfa 100%);
+          box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
         }
       `}</style>
     </div>

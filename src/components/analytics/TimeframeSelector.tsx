@@ -110,15 +110,18 @@ export const TimeframeSelector = ({ currentTimeframe, onTimeframeChange }: Timef
             onClick={() => onTimeframeChange(tf.value)}
             title={dateDescription}
             className={`
-              px-2 py-1 text-xs font-medium rounded transition-all duration-200
+              relative px-2.5 py-1.5 text-xs font-medium rounded-lg transition-all duration-300
               ${
                 currentTimeframe === tf.value
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'bg-slate-800/50 text-gray-400 hover:bg-slate-700 hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                  : 'bg-[#1a1f3a]/40 text-blue-200/70 hover:bg-[#1a1f3a]/70 hover:text-blue-100 hover:shadow-md hover:shadow-blue-500/20 hover:scale-105'
               }
             `}
           >
             {tf.label}
+            {currentTimeframe === tf.value && (
+              <div className="absolute inset-0 rounded-lg border border-blue-400/50 pointer-events-none"></div>
+            )}
           </button>
         );
       })}
