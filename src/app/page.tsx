@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -18,11 +19,21 @@ export default function Home() {
           <div className="text-center">
             {/* Logo/Title */}
             <div className="mb-6 sm:mb-8">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 tracking-tight">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-100 via-white to-gray-200 drop-shadow-[0_0_12px_rgba(255,255,255,0.08)]">
-                  CryptoVista
-                </span>
-              </h1>
+              <div className="flex items-center justify-center gap-4 mb-3 sm:mb-4">
+                <Image 
+                  src="/transparentlogo.png" 
+                  alt="CryptoVista Logo" 
+                  width={64} 
+                  height={64} 
+                  className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
+                  priority
+                />
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-100 via-white to-gray-200 drop-shadow-[0_0_12px_rgba(255,255,255,0.08)]">
+                    CryptoVista
+                  </span>
+                </h1>
+              </div>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 font-light px-4">
                 Monitor your favorite cryptocurrencies in real-time
               </p>
