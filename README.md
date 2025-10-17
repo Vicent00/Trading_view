@@ -261,24 +261,6 @@ CMD ["npm", "start"]
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 Roadmap
-
-- [ ] Additional time intervals (5m, 15m, 1h, 4h, 1d)
-- [ ] More cryptocurrencies (ADA, DOT, MATIC, etc.)
-- [ ] Technical indicators (RSI, MACD, Bollinger Bands)
-- [ ] Customizable price alerts
-- [ ] Light/dark theme toggle
-- [ ] Data export to CSV
-- [ ] PWA (Progressive Web App)
-- [ ] Push notifications
-- [ ] Portfolio tracking
-- [ ] Advanced charting tools
-
-## 🐛 Known Issues
-
-- **WebSocket errors in SSR**: Normal during server-side rendering, resolves on client
-- **Rate limiting**: CoinGecko API has rate limits on free tier
-- **Browser compatibility**: Requires modern browsers with WebSocket support
 
 ## 📄 License
 
