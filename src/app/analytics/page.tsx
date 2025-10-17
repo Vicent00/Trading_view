@@ -6,7 +6,7 @@ import { GridLayout } from '@/components/analytics/GridLayout';
 import { useBinanceTicker } from '@/hooks/useBinanceTicker';
 
 export default function AnalyticsPage() {
-  // Activar ticker para precios en tiempo real en el dropdown
+  // Enable ticker for real-time prices in dropdown
   useBinanceTicker();
 
   return (

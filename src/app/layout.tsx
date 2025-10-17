@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Crypto Tracker - Monitorización de Criptomonedas en Tiempo Real",
-  description: "Monitoriza Bitcoin, Ethereum y Solana en tiempo real con gráficos interactivos y datos actualizados al instante desde Binance.",
+  title: "CryptoVista - Real-Time Cryptocurrency Monitoring",
+  description: "Monitor Bitcoin, Ethereum and Solana in real-time with interactive charts and instant data updates from Binance.",
   keywords: ["crypto", "bitcoin", "ethereum", "solana", "trading", "cryptocurrency", "real-time"],
   icons: {
     icon: "/transparentlogo.png",
@@ -30,6 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

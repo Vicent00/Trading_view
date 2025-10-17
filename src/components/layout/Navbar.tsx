@@ -72,9 +72,6 @@ export function Navbar() {
                 }`}
               >
                 {link.label}
-                {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></div>
-                )}
               </Link>
             );
           })}

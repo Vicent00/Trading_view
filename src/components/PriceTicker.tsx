@@ -66,7 +66,7 @@ export const PriceTicker = () => {
           <span className="text-gray-600">--</span>
         )}
       </div>
-      <div className="mt-2 md:mt-3 text-xs text-gray-500">Actualizado en tiempo real</div>
+      <div className="mt-2 md:mt-3 text-xs text-gray-500">Updated in real-time</div>
     </div>
   );
 };
