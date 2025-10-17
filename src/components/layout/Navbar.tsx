@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useUIStore } from '@/store/uiStore';
 
@@ -41,12 +42,14 @@ export function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-all duration-300 hover:scale-105">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
-              </div>
+            <div className="flex items-center space-x-3">
+              <Image 
+                src="/transparentlogo.png" 
+                alt="CryptoVista Logo" 
+                width={32} 
+                height={32} 
+                className="w-8 h-8 rounded-lg shadow-md"
+              />
               <div className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-gray-300 tracking-tight">
                 CryptoVista
               </div>

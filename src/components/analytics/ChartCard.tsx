@@ -6,6 +6,7 @@ import { useBinanceChart } from '@/hooks/useBinanceChart';
 import { useAnalyticsStore, type Timeframe } from '@/store/analyticsStore';
 import { useWatchlistStore } from '@/store/watchlistStore';
 import { useTickerStore } from '@/store/tickerStore';
+import { TimeframeSelector } from '@/components/analytics/TimeframeSelector';
 import type { CryptoSymbol } from '@/types/market';
 
 interface ChartCardProps {
@@ -44,6 +45,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
 
   const { candles, currentPrice, priceChangePercent, isLoading } = useBinanceChart(chartId, symbol, timeframe);
   const updateChartSymbol = useAnalyticsStore((state) => state.updateChartSymbol);
+  const updateChartTimeframe = useAnalyticsStore((state) => state.updateChartTimeframe);
 
   // Watchlist & Ticker data
   const availableTokens = useWatchlistStore((state) => state.availableTokens);
@@ -202,6 +204,11 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
     updateChartSymbol(chartId, tradingPair);
     setShowMenu(false);
     setSearchQuery('');
+  };
+
+  const handleTimeframeChange = (newTimeframe: Timeframe) => {
+    console.log(`[ChartCard] ⏱️  Changing ${chartId} timeframe from ${timeframe} to ${newTimeframe}`);
+    updateChartTimeframe(chartId, newTimeframe);
   };
 
   const formatPrice = (price: number | null | undefined) => {
@@ -402,6 +409,11 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
         </div>
       </div>
 
+      {/* Timeframe Selector */}
+      <div className="px-3 py-2 border-b border-slate-700/50 bg-slate-800/30">
+        <TimeframeSelector currentTimeframe={timeframe} onTimeframeChange={handleTimeframeChange} />
+      </div>
+
       {/* Chart Area */}
       <div className="flex-1 relative min-h-0">
         <div ref={chartContainerRef} className="absolute inset-0" />
@@ -413,11 +425,6 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
             </div>
           </div>
         )}
-      </div>
-
-      {/* Timeframe indicator */}
-      <div className="px-3 py-1.5 border-t border-slate-700/50 bg-slate-800/30">
-        <span className="text-xs text-gray-400 uppercase">{timeframe}</span>
       </div>
 
       {/* Custom Scrollbar Styles */}

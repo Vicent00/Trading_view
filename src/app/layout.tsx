@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Crypto Tracker - Monitorización de Criptomonedas en Tiempo Real",
   description: "Monitoriza Bitcoin, Ethereum y Solana en tiempo real con gráficos interactivos y datos actualizados al instante desde Binance.",
   keywords: ["crypto", "bitcoin", "ethereum", "solana", "trading", "cryptocurrency", "real-time"],
+  icons: {
+    icon: "/transparentlogo.png",
+    shortcut: "/transparentlogo.png",
+    apple: "/transparentlogo.png",
+  },
 };
 
 export default function RootLayout({

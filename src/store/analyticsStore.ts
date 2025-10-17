@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { CryptoSymbol } from '@/types/market';
 
 // Tipos de timeframe soportados
-export type Timeframe = '1m' | '5m' | '15m' | '1h';
+export type Timeframe = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1d' | '1w' | '1M';
 
 // Tipos de layout disponibles
 export type LayoutType = 'single' | 'split2' | 'grid4' | 'grid6';

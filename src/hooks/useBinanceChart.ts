@@ -10,7 +10,12 @@ const TIMEFRAME_TO_INTERVAL: Record<Timeframe, string> = {
   '1m': '1m',
   '5m': '5m',
   '15m': '15m',
+  '30m': '30m',
   '1h': '1h',
+  '4h': '4h',
+  '1d': '1d',
+  '1w': '1w',
+  '1M': '1M',
 };
 
 interface UseBinanceChartReturn {
@@ -100,7 +105,24 @@ export const useBinanceChart = (
 
       setIsLoading(true);
       try {
-        const limit = timeframe === '1m' ? 500 : timeframe === '5m' ? 288 : timeframe === '15m' ? 96 : 168;
+        // Determinar la cantidad óptima de velas por timeframe
+        // Límite máximo de Binance: 1000 velas por request
+        const getLimit = (): number => {
+          switch (timeframe) {
+            case '1m': return 500;   // ~8 horas
+            case '5m': return 288;   // ~24 horas (1 día)
+            case '15m': return 96;   // ~24 horas (1 día)
+            case '30m': return 96;   // ~2 días
+            case '1h': return 168;   // ~7 días (1 semana)
+            case '4h': return 180;   // ~30 días (1 mes)
+            case '1d': return 365;   // ~1 año
+            case '1w': return 260;   // ~5 años
+            case '1M': return 60;    // ~5 años
+            default: return 200;
+          }
+        };
+
+        const limit = getLimit();
         const res = await fetch(
           `https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}&interval=${interval}&limit=${limit}`
         );
