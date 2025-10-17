@@ -8,10 +8,11 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        {/* Background overlays (radial glow + subtle grid) */}
+        {/* Background overlays (radial glow + subtle grid + vignette) */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08),transparent_60%)] opacity-20"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.10),transparent_55%)] opacity-20"></div>
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:24px_24px] opacity-10"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,0,0,0.6),transparent_50%)]"></div>
         </div>
 
         {/* Content */}
@@ -39,17 +40,34 @@ export default function Home() {
               </p>
             </div>
 
-            {/* CTA Button */}
-            <div className="mb-12 sm:mb-16">
+            {/* CTAs */}
+            <div className="mb-12 sm:mb-16 flex items-center justify-center gap-3 sm:gap-4">
               <Link
                 href="/analytics"
-                className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white rounded-xl bg-white/5 hover:bg_white/10 border border-white/15 shadow-lg hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] ring-1 ring-white/10 hover:ring-white/30 transition-all duration-300 backdrop-blur"
+                className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 shadow-lg hover:shadow-[0_0_40px_rgba(255,255,255,0.18)] ring-1 ring-white/15 hover:ring-white/30 transition-all duration-300 backdrop-blur"
               >
                 Go to Dashboard
                 <svg className="ml-2 w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Link>
+              <Link
+                href="/market-overview"
+                className="inline-flex items-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white/90 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 ring-1 ring-white/10 hover:ring-white/25 transition-all duration-300"
+              >
+                Market Overview
+              </Link>
+            </div>
+
+            {/* Highlights strip */}
+            <div className="max-w-3xl mx-auto mb-10 sm:mb-14 text-center text-xs sm:text-sm text-gray-300/80 px-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+                <span className="tracking-wide">Real-time data</span>
+                <span className="hidden sm:inline text-white/20">/</span>
+                <span className="tracking-wide">Interactive charts</span>
+                <span className="hidden sm:inline text-white/20">/</span>
+                <span className="tracking-wide">BTC · ETH · SOL</span>
+              </div>
             </div>
 
             {/* Features Grid */}
@@ -83,15 +101,15 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="relative border-t border-gray-800 py-6 sm:py-8">
+      <footer className="relative border-t border-white/10 py-8 sm:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <p className="text-sm sm:text-base text-gray-400">
+          <p className="text-sm sm:text-base text-gray-300/90">
             Powered by{' '}
-            <span className="text-gray-300 font-semibold">Binance WebSocket API</span>
+            <span className="text-gray-100 font-semibold">Binance WebSocket API</span>
             {' '}&{' '}
-            <span className="text-gray-300 font-semibold">Lightweight Charts</span>
+            <span className="text-gray-100 font-semibold">Lightweight Charts</span>
           </p>
-          <p className="text-gray-500 text-xs sm:text-sm mt-2">
+          <p className="text-gray-400 text-xs sm:text-sm mt-2">
             CryptoVista © 2025 - Real-time data without API keys required
           </p>
         </div>

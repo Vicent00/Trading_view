@@ -101,7 +101,7 @@ export function Sidebar() {
       {/* Sidebar - Mobile: Fixed overlay drawer | Desktop: Sticky sidebar */}
       <aside
         className={`
-          bg-[#141414] border-r border-[#1e1e1e] transition-all duration-300
+          bg-[#0a0e27]/90 border-r border-white/10 transition-all duration-300
           ${
             // Mobile: drawer overlay below navbar
             'fixed top-[60px] left-0 h-[calc(100vh-60px)] lg:sticky lg:top-[60px] lg:h-[calc(100vh-60px)] z-40'
@@ -120,8 +120,8 @@ export function Sidebar() {
           {/* Top spacing compact, toggle relocated into Watchlists header */}
 
           {/* Mobile Navigation Links (only visible on mobile) */}
-          <div className="lg:hidden border-b border-[#1e1e1e] p-4">
-            <h3 className="text-[#e0e0e0] text-xs font-bold uppercase tracking-wider mb-3">
+          <div className="lg:hidden border-b border-white/10 p-4">
+            <h3 className="text-blue-100/80 text-xs font-bold uppercase tracking-wider mb-3">
               Navigation
             </h3>
             <div className="space-y-1">
@@ -132,10 +132,10 @@ export function Sidebar() {
                     key={link.href}
                     href={link.href}
                     onClick={closeMobileSidebar}
-                    className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ${
                       isActive
-                        ? 'bg-gray-800 text-white'
-                        : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800/50'
+                        ? 'bg-white/10 border border-white/20 text-white'
+                        : 'text-blue-100/80 hover:text-white hover:bg-white/10 hover:border hover:border-white/10'
                     }`}
                   >
                     {link.label}
@@ -175,16 +175,16 @@ export function Sidebar() {
           {(!isCollapsed || isMobileSidebarOpen) && (
             <div className="flex-1 overflow-y-auto">
               {/* Header */}
-              <div className="p-4 border-b border-[#1e1e1e]">
+              <div className="p-4 border-b border-white/10">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-[#e0e0e0] text-xs font-bold uppercase tracking-wider">
+                  <h2 className="text-blue-100/80 text-xs font-bold uppercase tracking-wider">
                     Watchlists
                   </h2>
                   <div className="flex items-center gap-2">
                     {/* Add watchlist button */}
                     <button
                       onClick={() => setShowAddWatchlistModal(true)}
-                      className="w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-blue-100/80 hover:text-white transition-colors duration-150"
                       title="Create new watchlist"
                     >
                       <svg
@@ -204,7 +204,7 @@ export function Sidebar() {
                     {/* Close button (mobile only) */}
                     <button
                       onClick={closeMobileSidebar}
-                      className="lg:hidden w-6 h-6 flex items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      className="lg:hidden w-7 h-7 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-blue-100/80 hover:text-white transition-colors duration-150"
                       aria-label="Close sidebar"
                       title="Close sidebar"
                     >
@@ -225,7 +225,7 @@ export function Sidebar() {
                     {/* Toggle collapse (desktop only) */}
                     <button
                       onClick={() => setIsCollapsed(!isCollapsed)}
-                      className="hidden lg:flex w-6 h-6 items-center justify-center rounded hover:bg-[#1a1a1a] transition-colors text-gray-400 hover:text-gray-200"
+                      className="hidden lg:flex w-7 h-7 items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-blue-100/80 hover:text-white transition-colors duration-150"
                       aria-label="Toggle sidebar"
                       title="Collapse/Expand sidebar"
                     >
@@ -248,7 +248,7 @@ export function Sidebar() {
               </div>
 
               {/* Watchlist Groups - Scrollable */}
-              <div className="p-3 max-h-[calc(100vh-340px)] lg:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar">
+              <div className="p-3 max-h=[calc(100vh-340px)] lg:max-h-[calc(100vh-200px)] overflow-y-auto custom-scrollbar space-y-2">
                 {isLoading && Object.keys(tickers).length === 0 ? (
                   <div className="flex items-center justify-center py-8 text-gray-500">
                     <svg
@@ -298,7 +298,8 @@ export function Sidebar() {
                   </div>
                 ) : (
                   watchlistGroups.map((watchlist) => (
-                    <WatchlistGroup
+                    <div key={watchlist.watchlistId} className="bg-white/5 rounded-md ring-1 ring-transparent hover:ring-white/10 transition-colors duration-150">
+                      <WatchlistGroup
                       key={watchlist.watchlistId}
                       watchlistId={watchlist.watchlistId}
                       title={watchlist.title}
@@ -308,7 +309,8 @@ export function Sidebar() {
                       isDefault={watchlist.isDefault}
                       onAddToken={() => handleAddToken(watchlist.watchlistId, watchlist.items.map(i => i.symbol))}
                       onDelete={!watchlist.isDefault ? () => handleDeleteWatchlist(watchlist.watchlistId) : undefined}
-                    />
+                      />
+                    </div>
                   ))
                 )}
               </div>

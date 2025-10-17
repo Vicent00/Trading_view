@@ -138,6 +138,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
       },
       rightPriceScale: {
         borderVisible: false,
+        autoScale: true,
       },
       leftPriceScale: {
         visible: false,
@@ -211,9 +212,13 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
 
       seriesRef.current.setData(chartData);
 
-      // Ajustar el contenido del chart después de cargar nuevos datos
+      // Ajustar AMBAS escalas: tiempo (horizontal) Y precio (vertical)
       if (chartRef.current) {
+        // Ajustar escala de tiempo
         chartRef.current.timeScale().fitContent();
+
+        // Forzar reescalado del precio (eje Y) - crítico al cambiar de cripto
+        chartRef.current.timeScale().scrollToPosition(0, false);
       }
     } catch (error) {
       console.error(`[ChartCard ${chartId}] Error updating chart:`, error);
@@ -340,7 +345,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
             </button>
 
             {showMenu && (
-              <div className="absolute right-0 top-full mt-1 bg-[#0f1436]/95 backdrop-blur-lg border border-blue-500/30 rounded-xl shadow-2xl shadow-blue-900/30 z-50 min-w-[320px] max-w-[400px] max-h-[500px] overflow-hidden flex flex-col">
+              <div className="absolute right-0 top-full mt-1 bg-[#0f1436]/95 backdrop-blur-lg border border-blue-500/30 rounded-xl shadow-2xl shadow-blue-900/30 z-50 min-w[320px] max-w-[400px] max-h-[500px] overflow-hidden flex flex-col min-h-0">
                 {/* Barra de búsqueda */}
                 <div className="p-3 border-b border-blue-500/20">
                   <div className="relative">
@@ -383,7 +388,7 @@ export const ChartCard = ({ chartId, symbol, timeframe }: ChartCardProps) => {
                 </div>
 
                 {/* Lista de tokens scrollable */}
-                <div className="overflow-y-auto flex-1 custom-scrollbar">
+                <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar scrollbar-stable px-2 pb-2 after:content-[''] after:block after:h-2">
                   {/* Favoritos */}
                   {favoriteTokens.length > 0 && (
                     <div>

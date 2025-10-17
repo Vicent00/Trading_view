@@ -15,14 +15,14 @@ export function Navbar() {
   const toggleMobileSidebar = useUIStore((state) => state.toggleMobileSidebar);
 
   return (
-    <nav className="h-[60px] sticky top-0 backdrop-blur bg-gray-900/70 border-b border-gray-800/60 flex items-center px-4 md:px-6 z-50 shadow-md">
+    <nav className="h-[60px] sticky top-0 bg-white/5 backdrop-blur-md border-b border-white/10 flex items-center px-4 md:px-6 z-50 shadow-lg shadow-blue-500/10">
       <div className="flex items-center justify-between w-full">
         {/* Mobile: Hamburger + Logo */}
         <div className="flex items-center gap-4">
           {/* Hamburger Menu Button (visible only on mobile) */}
           <button
             onClick={toggleMobileSidebar}
-            className="lg:hidden p-2.5 rounded-xl text-gray-300 hover:text-white hover:bg-gray-700/60 transition-all duration-300 hover:scale-105"
+            className="lg:hidden p-2.5 rounded-xl text-gray-200 hover:text-white hover:bg-white/10 transition-colors duration-150"
             aria-label="Toggle sidebar"
           >
             <svg
@@ -41,14 +41,14 @@ export function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-all duration-300 hover:scale-105">
+          <Link href="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity duration-150">
             <div className="flex items-center space-x-3">
               <Image 
                 src="/transparentlogo.png" 
                 alt="CryptoVista Logo" 
                 width={32} 
                 height={32} 
-                className="w-8 h-8 rounded-lg shadow-md"
+                className="w-8 h-8 rounded-lg ring-1 ring-white/10"
               />
               <div className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-gray-300 tracking-tight">
                 CryptoVista
@@ -65,10 +65,10 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 relative group ${
+                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-150 ${
                   isActive
-                    ? 'bg-gray-700/80 text-white shadow-md'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50 hover:shadow-sm'
+                    ? 'bg-white/10 border border-white/20 text-white'
+                    : 'text-gray-200 hover:text-white hover:bg-white/10 hover:border hover:border-white/10'
                 }`}
               >
                 {link.label}
@@ -84,7 +84,7 @@ export function Navbar() {
             href="https://github.com/Vicent00"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/60 transition-all duration-300 hover:scale-105"
+            className="p-2 rounded-lg text-gray-200 hover:text-white hover:bg-white/10 transition-colors duration-150"
             aria-label="GitHub Profile"
             title="GitHub Profile"
           >
@@ -98,7 +98,7 @@ export function Navbar() {
             href="https://www.linkedin.com/in/vicente-aguilar00/"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-700/60 transition-all duration-300 hover:scale-105"
+            className="p-2 rounded-lg text-gray-200 hover:text-white hover:bg-white/10 transition-colors duration-150"
             aria-label="LinkedIn Profile"
             title="LinkedIn Profile"
           >
